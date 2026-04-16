@@ -336,32 +336,50 @@ a:hover { color: #fff; }
   display: none;
   font-family: 'Be Vietnam Pro', sans-serif;
 }
-.ty-hero {
-  background: radial-gradient(ellipse at 50% 85%, #cc0000 0%, #7a0000 25%, #2d0000 55%, #000000 80%);
-  padding: 60px 16px 48px 16px;
-}
 .ty-container {
   max-width: 960px;
   margin: 0 auto;
 }
-.ty-header {
+
+/* Section 1 — Hero Complimenti */
+.ty-hero {
+  background: radial-gradient(ellipse at 50% 85%, #610b0f 0%, #3a0609 35%, #000000 70%);
+  padding: 80px 16px 60px 16px;
   text-align: center;
-  margin-bottom: 40px;
 }
-.ty-header h1 {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #E8D9B0;
-  margin-bottom: 8px;
+.ty-hero-complimenti {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  color: #8b0c15;
+  margin: 0 0 16px 0;
+  line-height: 1;
 }
-.ty-header p {
-  font-size: 14px;
-  color: #ccc;
+.ty-hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+.ty-hero-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
   font-weight: 300;
+  color: #999999;
+  margin: 0;
 }
-/* Two hero cards */
+
+/* Section 2 — Report numbers dark card */
+.ty-report-card {
+  background: #0a0a0a;
+  border-radius: 20px;
+  padding: 48px 32px;
+  margin: 0 auto;
+  max-width: 960px;
+  box-shadow: 0 0 6px 3px #e578783d inset;
+}
 .hero-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -374,7 +392,7 @@ a:hover { color: #fff; }
   text-align: center;
 }
 .hero-card.loss {
-  background: rgba(183, 0, 0, 0.35);
+  background: rgba(139, 12, 21, 0.35);
   border: 1px solid rgba(232, 46, 46, 0.3);
 }
 .hero-card.profit {
@@ -401,12 +419,7 @@ a:hover { color: #fff; }
   color: #aaa;
 }
 
-/* Block 2 — Loss breakdown */
-.ty-block {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 16px;
-}
+/* Breakdown table */
 .breakdown-table {
   width: 100%;
   border-collapse: collapse;
@@ -448,12 +461,12 @@ a:hover { color: #fff; }
 /* Download button */
 .download-section {
   text-align: center;
-  padding: 32px 16px;
+  padding: 32px 16px 16px;
 }
 .btn-download {
   display: inline-block;
   padding: 18px 48px;
-  background: #B70000;
+  background: #8b0c15;
   color: #FFFFFF;
   font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 16px;
@@ -466,11 +479,168 @@ a:hover { color: #fff; }
   transition: background 0.2s;
   text-decoration: none;
 }
-.btn-download:hover { background: #cc0000; }
+.btn-download:hover { background: #a51020; }
 .download-sub {
   font-size: 13px;
   color: #8c8c8c;
   margin-top: 10px;
+}
+
+/* Report email info */
+.report-email-info {
+  max-width: 700px;
+  margin: 24px auto 0;
+  padding: 0 16px;
+}
+.report-email-info p {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: #cccccc;
+  line-height: 1.7;
+  margin: 0 0 12px 0;
+}
+.report-email-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+.report-email-info ul li {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #cccccc;
+  line-height: 1.8;
+  padding-left: 20px;
+  position: relative;
+}
+.report-email-info ul li::before {
+  content: '\2022';
+  color: #8b0c15;
+  font-weight: 700;
+  position: absolute;
+  left: 0;
+}
+.report-email-info .report-meanwhile {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+/* Section 3 — Benefits + Urgency */
+.ty-benefits-section {
+  background: #000000;
+  padding: 64px 16px;
+}
+.ty-benefits-section .ty-container {
+  max-width: 800px;
+}
+.ty-benefits-section h2 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+  margin: 0 0 28px 0;
+}
+.ty-benefits-section p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #cccccc;
+  line-height: 1.7;
+  margin: 0 0 16px 0;
+}
+.ty-benefits-section .ty-ma-heading {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  color: #e93d3d;
+  margin: 48px 0 20px 0;
+  line-height: 1.1;
+}
+.ty-benefits-section h3 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+  margin: 0 0 20px 0;
+}
+
+/* Section 4 — Two Roads + CTA */
+.ty-two-roads {
+  background: linear-gradient(to bottom, #58041c 0%, #0a0004 55%);
+  padding: 80px 16px;
+}
+.ty-two-roads .ty-container {
+  max-width: 800px;
+}
+.ty-two-roads h2 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+  margin: 0 0 40px 0;
+  text-align: center;
+}
+.ty-road-option {
+  padding: 28px 24px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+.ty-road-option.road-bad {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ty-road-option.road-good {
+  background: rgba(139, 12, 21, 0.2);
+  border: 1px solid rgba(139, 12, 21, 0.4);
+}
+.ty-road-option p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #cccccc;
+  line-height: 1.7;
+  margin: 0;
+}
+.ty-road-option.road-good p {
+  color: #ffffff;
+  font-weight: 500;
+}
+.ty-big-cta {
+  text-align: center;
+  margin-top: 48px;
+}
+.btn-cta {
+  display: inline-block;
+  padding: 22px 56px;
+  background: linear-gradient(135deg, #8b0c15 0%, #cc1010 100%);
+  color: #FFFFFF;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(139, 12, 21, 0.4);
+}
+.btn-cta:hover { background: linear-gradient(135deg, #a51020 0%, #e82e2e 100%); color: #fff; box-shadow: 0 6px 32px rgba(139, 12, 21, 0.6); }
+.ty-big-cta .cta-subtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #999999;
+  margin-top: 16px;
 }
 
 /* Calendar section */
@@ -506,70 +676,7 @@ a:hover { color: #fff; }
   overflow: hidden;
 }
 
-/* Block 3 — Bundle */
-.bundle-section {
-  background: #1A1A1A;
-  border-radius: 16px;
-  padding: 36px 32px;
-  margin-bottom: 40px;
-}
-.bundle-section h2 {
-  font-size: 16px;
-  font-weight: 300;
-  color: #ccc;
-  margin-bottom: 12px;
-}
-.bundle-name {
-  font-size: 24px;
-  font-weight: 700;
-  color: #E8D9B0;
-  margin-bottom: 16px;
-}
-.bundle-motivation {
-  font-size: 15px;
-  font-weight: 300;
-  color: #ddd;
-  line-height: 1.7;
-}
-
-/* Block 4 — CTA */
-.cta-section {
-  text-align: center;
-  padding: 40px 16px;
-}
-.cta-section h2 {
-  font-size: 22px;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 12px;
-}
-.cta-section p {
-  font-size: 15px;
-  font-weight: 300;
-  color: #ccc;
-  max-width: 640px;
-  margin: 0 auto 24px auto;
-  line-height: 1.6;
-}
-.btn-cta {
-  display: inline-block;
-  padding: 18px 48px;
-  background: #B70000;
-  color: #FFFFFF;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: none;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-  text-decoration: none;
-}
-.btn-cta:hover { background: #cc0000; color: #fff; }
-
-/* Block 5 — Testimonials slider */
+/* Testimonials slider */
 #tst{font-family:'Be Vietnam Pro',sans-serif;width:100%;background:transparent;color:#fff;overflow:hidden}
 .tv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s cubic-bezier(.16,1,.3,1)}
 .tv.in{opacity:1;transform:none}
@@ -595,26 +702,87 @@ a:hover { color: #fff; }
 .tst-cta-line{font-size:clamp(20px,2.5vw,34px);font-weight:900;line-height:1.1;letter-spacing:-.5px;max-width:700px;margin:0 auto;color:#fff}
 .tst-cta-line .red{color:var(--red);text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:4px}
 
-/* Block 6 — Positioning */
-.positioning-section {
-  background: #1A1A1A;
-  border-radius: 16px;
-  padding: 36px 32px;
+/* Section 8 — Company section */
+.ty-company-section {
+  background: #000000;
+  padding: 80px 16px;
   text-align: center;
 }
-.positioning-section h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 16px;
+.ty-company-section .ty-container {
+  max-width: 800px;
 }
-.positioning-section p {
-  font-size: 15px;
+.ty-company-heading {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0 0 24px 0;
+  background: linear-gradient(180deg, #ffffff 0%, #a9a9a9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.ty-company-section p {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #cccccc;
+  line-height: 1.7;
+  margin: 0 0 16px 0;
+}
+.ty-company-section .ty-robot-img {
+  max-width: 100%;
+  width: 500px;
+  margin: 40px auto 0;
+  display: block;
+  border-radius: 16px;
+}
+
+/* Section 9 — Big bottom CTA */
+.ty-bottom-cta {
+  background: #000000;
+  padding: 80px 16px;
+  text-align: center;
+}
+.ty-bottom-cta h2 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0 0 32px 0;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ty-bottom-cta .ty-bottom-logo {
+  display: block;
+  max-width: 200px;
+  margin: 40px auto 0;
+}
+
+/* Section 10 — Footer */
+.ty-footer {
+  background: #000000;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 40px 16px;
+  text-align: center;
+}
+.ty-footer p {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
   font-weight: 300;
-  color: #ccc;
-  line-height: 1.6;
-  max-width: 640px;
-  margin: 0 auto;
+  color: #666666;
+  line-height: 1.7;
+  margin: 0 0 4px 0;
+}
+.ty-footer a {
+  color: #999999;
+  font-size: 13px;
+  text-decoration: underline;
+}
+.ty-footer a:hover {
+  color: #ffffff;
 }
 
 /* === RESPONSIVE === */
@@ -623,7 +791,11 @@ a:hover { color: #fff; }
   .step-card { padding: 24px 20px; }
   .hero-cards { grid-template-columns: 1fr; }
   .hero-card-number { font-size: 34px; }
-  .bundle-section, .positioning-section { padding: 28px 20px; }
+  .ty-hero-complimenti { font-size: 33px; }
+  .ty-hero-subtitle { font-size: 1.1rem; }
+  .ty-report-card { padding: 32px 20px; }
+  .ty-road-option { padding: 22px 18px; }
+  .btn-cta { padding: 18px 36px; font-size: 15px; }
 }
 @media (max-width: 600px) {
   #tst-header { padding: 28px var(--pad) 20px; }
@@ -640,10 +812,13 @@ a:hover { color: #fff; }
   .step-question { font-size: 15px; }
   .option-item span { font-size: 14px; }
   .hero-card-number { font-size: 28px; }
-  .ty-hero { padding: 40px 12px 32px 12px; }
+  .ty-hero { padding: 48px 12px 36px 12px; }
   .btn-download, .btn-cta { padding: 16px 28px; font-size: 14px; width: 100%; }
   .nav-buttons { flex-direction: row; }
   .btn-prev, .btn-next { padding: 14px 16px; font-size: 13px; }
+  .ty-report-card { padding: 24px 14px; }
+  .ty-benefits-section, .ty-two-roads { padding: 48px 12px; }
+  .ty-company-section, .ty-bottom-cta { padding: 48px 12px; }
 }
 </style>
 </head>
@@ -927,13 +1102,20 @@ a:hover { color: #fff; }
 <!-- ==================== THANK YOU SECTION ==================== -->
 <section id="ty-section">
 
-  <!-- Block 1 — Hero with two key numbers -->
+  <!-- Section 1 — Hero "Complimenti" -->
   <div class="ty-hero">
     <div class="ty-container">
-      <div class="ty-header">
-        <h1>DEEP SCAN AZIENDALE AI</h1>
-        <p>Analisi personalizzata per <span id="ty-name"></span> &middot; <span id="ty-date"></span></p>
-      </div>
+      <h1 class="ty-hero-complimenti">Complimenti</h1>
+      <p class="ty-hero-subtitle">Il nostro Deep Scan Aziendale AI ha calcolato i tuoi dati!</p>
+      <p class="ty-hero-meta">Analisi personalizzata per <span id="ty-name"></span> &middot; <span id="ty-date"></span></p>
+    </div>
+  </div>
+
+  <!-- Section 2 — Report numbers in dark card -->
+  <div style="padding: 48px 16px; background: #000;">
+    <div class="ty-report-card">
+
+      <!-- Hero cards (loss / profit) -->
       <div class="hero-cards">
         <div class="hero-card loss">
           <p class="hero-card-label">La tua azienda sta perdendo ogni giorno:</p>
@@ -946,33 +1128,81 @@ a:hover { color: #fff; }
           <p class="hero-card-sub">+<span id="ty-profit-6m"></span> in 6 mesi &middot; +<span id="ty-profit-annual"></span>/anno</p>
         </div>
       </div>
+
+      <!-- Breakdown table -->
+      <table class="breakdown-table">
+        <thead>
+          <tr><th>Voce</th><th style="text-align:right">Importo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dispersione operativa giornaliera</td><td id="ty-op-loss"></td></tr>
+          <tr><td>Costo operativo mensile recuperabile</td><td id="ty-bundle-cost"></td></tr>
+          <tr><td>Lead non lavorati (mensile)</td><td id="ty-lead-loss"></td></tr>
+        </tbody>
+      </table>
+      <div class="d6-note" id="ty-d6-note">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
+
+      <!-- Download button -->
+      <div class="download-section">
+        <button class="btn-download" id="btn-download" onclick="downloadPDF()">SCARICA QUI IL TUO REPORT</button>
+        <p class="download-sub">L&rsquo;hai ricevuto anche via email (controlla anche lo spam)</p>
+      </div>
+
+      <!-- Report email info -->
+      <div class="report-email-info">
+        <p>Tra pochi minuti riceverai via email il report completo con:</p>
+        <ul>
+          <li>La stima precisa delle perdite mensili della tua azienda</li>
+          <li>I processi pi&ugrave; urgenti da automatizzare</li>
+          <li>La proiezione di crescita AI nei prossimi 3, 6 e 12 mesi</li>
+        </ul>
+        <p class="report-meanwhile">Nel frattempo, lascia che ti spieghi come trasformare subito quei numeri in risultati reali.</p>
+      </div>
+
     </div>
   </div>
 
-  <!-- Block 2 — Loss breakdown -->
-  <div class="ty-block">
-    <table class="breakdown-table">
-      <thead>
-        <tr><th>Voce</th><th style="text-align:right">Importo</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Dispersione operativa giornaliera</td><td id="ty-op-loss"></td></tr>
-        <tr><td>Costo operativo mensile recuperabile</td><td id="ty-bundle-cost"></td></tr>
-        <tr><td>Lead non lavorati (mensile)</td><td id="ty-lead-loss"></td></tr>
-      </tbody>
-    </table>
-    <div class="d6-note" id="ty-d6-note">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
+  <!-- Section 3 — Benefits + Urgency -->
+  <div class="ty-benefits-section">
+    <div class="ty-container">
+      <h2>Quando automatizzi, ogni processo manuale eliminato si trasforma immediatamente in margini pi&ugrave; alti.</h2>
+
+      <p>Ogni ora che liberi diventa tempo da investire in decisioni strategiche.</p>
+      <p>Ogni dipendente superfluo che togli dal bilancio significa meno costi fissi.</p>
+      <p>La tua azienda diventa pi&ugrave; agile e veloce, pi&ugrave; precisa e pi&ugrave; profittevole...</p>
+
+      <h2 class="ty-ma-heading">MA c&rsquo;&egrave; un MA!</h2>
+
+      <h3>La finestra di opportunit&agrave; dell&rsquo;AI si sta chiudendo pi&ugrave; in fretta di quello che pensi.</h3>
+
+      <p>Averla oggi &egrave; un vantaggio competitivo DEVASTANTE sul mercato. Ma tra 18 mesi sar&agrave; solo il minimo indispensabile per sopravvivere.</p>
+      <p>Chi arriva secondo non prende &ldquo;il premio di consolazione&rdquo;. Perde TUTTO, punto e basta.</p>
+    </div>
   </div>
 
-  <!-- Download button -->
-  <div class="download-section">
-    <button class="btn-download" id="btn-download" onclick="downloadPDF()">SCARICA QUI IL TUO REPORT</button>
-    <p class="download-sub">L&rsquo;hai ricevuto anche via email (controlla anche lo spam)</p>
+  <!-- Section 4 — Two Roads + CTA -->
+  <div class="ty-two-roads">
+    <div class="ty-container">
+      <h2>Ora, davanti a te ci sono due strade:</h2>
+
+      <div class="ty-road-option road-bad">
+        <p>Puoi continuare a sperare che &ldquo;prima o poi le cose cambieranno&rdquo;... che il mercato si stabilizzi... che l&rsquo;AI &ldquo;sia una moda passeggera&rdquo;...</p>
+      </div>
+
+      <div class="ty-road-option road-good">
+        <p>Oppure puoi decidere adesso di trasformare la tua impresa in una macchina AUTOMATIZZATA che DOMINA indisturbata il suo settore.</p>
+      </div>
+
+      <div class="ty-big-cta">
+        <a class="btn-cta" href="#" onclick="event.preventDefault();showCalendar();">PRENOTA LA TUA ANALISI GRATUITA</a>
+        <p class="cta-subtext">Non aspettare che sia il mercato a decidere la tua sorte.</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Calendar embed (hidden until PDF download) -->
+  <!-- Section 5 — Calendar embed (hidden by default, shown when CTA clicked) -->
   <div class="calendar-section" id="calendar-section">
-    <div class="ty-block">
+    <div style="max-width:960px;margin:0 auto;padding:40px 16px;">
       <div class="calendar-wrapper">
         <h2 class="calendar-title">Prenota la tua call gratuita</h2>
         <p class="calendar-sub">Scegli il giorno e l&rsquo;orario che preferisci. In 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda.</p>
@@ -983,23 +1213,7 @@ a:hover { color: #fff; }
     </div>
   </div>
 
-  <!-- Block 3 — Recommended bundle -->
-  <div class="ty-block">
-    <div class="bundle-section">
-      <h2>Ecco la soluzione che fa al caso tuo:</h2>
-      <p class="bundle-name" id="ty-bundle-name"></p>
-      <p class="bundle-motivation" id="ty-bundle-motivation"></p>
-    </div>
-  </div>
-
-  <!-- Block 4 — Primary CTA -->
-  <div class="cta-section">
-    <h2>Questi numeri sono reali. La soluzione anche.</h2>
-    <p>Prenota adesso una call con il nostro team: in 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda e quanto tempo ci vuole per vedere i primi risultati.</p>
-    <a class="btn-cta" href="#" onclick="event.preventDefault();showCalendar();">Prenota la tua call gratuita</a>
-  </div>
-
-  <!-- Block 5 — Testimonials slider -->
+  <!-- Section 6/7 — Testimonials slider -->
   <div id="tst">
     <div id="tst-header">
       <h2 class="tst-h tv">Loro lo hanno gi&agrave; fatto:</h2>
@@ -1046,21 +1260,33 @@ a:hover { color: #fff; }
     </div>
   </div>
 
-  <!-- Block 6 — Positioning / USP (PLACEHOLDER) -->
-  <!-- POSITIONING: Replace with real copy -->
-  <div class="ty-block">
-    <div class="positioning-section">
-      <h2>Perch&eacute; Infrastrutture AI</h2>
-      <p>Non vendiamo singoli tool. Installiamo ecosistemi AI completi che coprono l&rsquo;intera catena operativa della tua azienda &mdash; dall&rsquo;acquisizione del lead fino all&rsquo;assistenza post-vendita. Un&rsquo;unica architettura integrata, costruita su misura, che lavora 24/7 senza intervento umano.</p>
+  <!-- Section 8 — Company section -->
+  <div class="ty-company-section">
+    <div class="ty-container">
+      <h2 class="ty-company-heading">Infrastrutture</h2>
+      <p>Non vendiamo singoli tool. Installiamo ecosistemi AI completi che coprono l&rsquo;intera catena operativa della tua azienda &mdash; dall&rsquo;acquisizione del lead fino all&rsquo;assistenza post-vendita.</p>
+      <p>Un&rsquo;unica architettura integrata, costruita su misura, che lavora 24/7 senza intervento umano.</p>
+      <img class="ty-robot-img" src="https://storage.googleapis.com/msgsndr/ATe6AwUmimxBVNqRQ113/media/6830b21802f94350509c9492.png" alt="Infrastrutture AI Robot">
     </div>
   </div>
-  <!-- END POSITIONING -->
 
-  <!-- Final CTA (same as Block 4) -->
-  <div class="cta-section" style="padding-bottom: 60px;">
-    <h2>Questi numeri sono reali. La soluzione anche.</h2>
-    <p>Prenota adesso una call con il nostro team: in 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda e quanto tempo ci vuole per vedere i primi risultati.</p>
-    <a class="btn-cta" href="#" onclick="event.preventDefault();showCalendar();">Prenota la tua call gratuita</a>
+  <!-- Section 9 — Big bottom CTA -->
+  <div class="ty-bottom-cta">
+    <h2>VOGLIO SAPERE DA DOVE INIZIARE CON L&rsquo;AI</h2>
+    <a class="btn-cta" href="#" onclick="event.preventDefault();showCalendar();">PRENOTA LA TUA ANALISI GRATUITA</a>
+    <img class="ty-bottom-logo" src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/6920f1775408c6ac15161f6f.svg" alt="Infrastrutture AI Logo">
+  </div>
+
+  <!-- Hidden elements for JS compatibility -->
+  <span id="ty-bundle-name" style="display:none;"></span>
+  <span id="ty-bundle-motivation" style="display:none;"></span>
+
+  <!-- Section 10 — Footer -->
+  <div class="ty-footer">
+    <p>&copy; 2026 Fluence Group LTD. All rights reserved.</p>
+    <p>Albion House Unit 6, High Street, Woking, Surrey, England, GU21 6BG</p>
+    <p>Company number 16044889</p>
+    <p style="margin-top: 8px;"><a href="#" target="_blank">Privacy Policy</a> | <a href="#" target="_blank">Termini e condizioni</a></p>
   </div>
 
 </section>
