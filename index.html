@@ -628,21 +628,19 @@ a:hover { color: #fff; }
   height: 0;
 }
 #pdf-content {
-  width: 540px;
+  width: 794px;
   font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
   color: #FFFFFF;
 }
-/* Shared page base */
+/* Shared page base — A4 portrait */
 .pdf-page {
-  width: 540px;
-  height: 960px;
-  padding: 40px 32px;
+  width: 794px;
+  height: 1123px;
+  padding: 60px 80px;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  page-break-after: always;
-  break-after: page;
 }
 .pdf-bg-dark {
   background: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
@@ -654,12 +652,12 @@ a:hover { color: #fff; }
   text-align: center;
 }
 .pdf-cover-title {
-  font-size: 52px;
+  font-size: 72px;
   font-weight: 900;
   color: #FFFFFF;
   text-transform: uppercase;
   line-height: 1.05;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-shadow: 0 4px 30px rgba(0,0,0,0.5);
 }
 .pdf-cover-title .red { color: #cc0000; }
@@ -695,7 +693,7 @@ a:hover { color: #fff; }
 }
 .pdf-hero-label strong { font-weight: 700; color: #fff; }
 .pdf-hero-number {
-  font-size: 40px;
+  font-size: 48px;
   font-weight: 900;
   line-height: 1.1;
 }
@@ -715,7 +713,7 @@ a:hover { color: #fff; }
   margin-bottom: 4px;
 }
 .pdf-metric-value {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 800;
 }
 .pdf-metric-box.red .pdf-metric-value { color: #ff7b7b; }
@@ -747,7 +745,7 @@ a:hover { color: #fff; }
   margin-bottom: 6px;
 }
 .pdf-breakdown-value {
-  font-size: 34px;
+  font-size: 38px;
   font-weight: 900;
   color: #ff7b7b;
 }
@@ -793,7 +791,7 @@ a:hover { color: #fff; }
   margin-bottom: 4px;
 }
 .pdf-bundle-name-big {
-  font-size: 72px;
+  font-size: 84px;
   font-weight: 900;
   text-transform: uppercase;
   color: #fff;
@@ -1198,7 +1196,7 @@ a:hover { color: #fff; }
   <div class="cta-section">
     <h2>Questi numeri sono reali. La soluzione anche.</h2>
     <p>Prenota adesso una call con il nostro team: in 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda e quanto tempo ci vuole per vedere i primi risultati.</p>
-    <a class="btn-cta" id="cta-link-1" href="#" target="_blank">Prenota la tua call gratuita</a>
+    <a class="btn-cta" href="#" onclick="event.preventDefault();showCalendar();">Prenota la tua call gratuita</a>
   </div>
 
   <!-- Block 5 — Testimonials slider -->
@@ -1262,7 +1260,7 @@ a:hover { color: #fff; }
   <div class="cta-section" style="padding-bottom: 60px;">
     <h2>Questi numeri sono reali. La soluzione anche.</h2>
     <p>Prenota adesso una call con il nostro team: in 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda e quanto tempo ci vuole per vedere i primi risultati.</p>
-    <a class="btn-cta" id="cta-link-2" href="#" target="_blank">Prenota la tua call gratuita</a>
+    <a class="btn-cta" href="#" onclick="event.preventDefault();showCalendar();">Prenota la tua call gratuita</a>
   </div>
 
 </section>
@@ -1599,9 +1597,7 @@ function submitQuiz() {
   document.getElementById('ty-bundle-name').textContent = 'ECOSISTEMA AI - ' + bundle;
   document.getElementById('ty-bundle-motivation').textContent = BUNDLE_MOTIVATIONS[bundle];
 
-  // CTA links
-  document.getElementById('cta-link-1').href = BOOKING_URL;
-  document.getElementById('cta-link-2').href = BOOKING_URL;
+  // CTA links now use showCalendar() directly via onclick
 
   // === POPULATE PDF ===
   document.getElementById('pdf-name').textContent = nome + ' ' + cognome;
@@ -1673,41 +1669,49 @@ function downloadPDF() {
   var nome = document.getElementById('field-nome').value.trim();
   var cognome = document.getElementById('field-cognome').value.trim();
   var wrapper = document.getElementById('pdf-wrapper');
-  var element = document.getElementById('pdf-content');
+  var pages = document.querySelectorAll('#pdf-content .pdf-page');
 
-  // Make wrapper visible so html2canvas can capture the content
+  // Make wrapper visible for capture
   wrapper.style.height = 'auto';
   wrapper.style.opacity = '1';
   wrapper.style.zIndex = '-1';
 
-  // Show the calendar immediately
-  var calSection = document.getElementById('calendar-section');
-  calSection.classList.add('visible');
-  // Scroll to the calendar
-  setTimeout(function() {
-    calSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 300);
+  // Show the calendar
+  showCalendar();
 
-  // Wait for browser to repaint with the element visible
+  // Render each page separately into one PDF
   requestAnimationFrame(function() {
     setTimeout(function() {
-      var opt = {
+      var worker = html2pdf().set({
         margin: 0,
         filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#000000', windowWidth: 540 },
-        jsPDF: { unit: 'px', format: [540, 960], orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'], avoid: '.pdf-page' }
-      };
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#000000' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      });
 
-      html2pdf().set(opt).from(element).save().then(function() {
-        // Hide wrapper again
+      // Chain: render first page, then add remaining pages
+      var chain = worker.from(pages[0]).toContainer().toCanvas().toPdf();
+      for (var i = 1; i < pages.length; i++) {
+        chain = chain.get('pdf').then(function(idx) {
+          return function(pdf) { pdf.addPage(); };
+        }(i)).from(pages[i]).toContainer().toCanvas().toPdf();
+      }
+      chain.save().then(function() {
         wrapper.style.height = '0';
         wrapper.style.opacity = '0';
         wrapper.style.zIndex = '-9999';
       });
-    }, 100);
+    }, 200);
   });
+}
+
+function showCalendar() {
+  var calSection = document.getElementById('calendar-section');
+  calSection.classList.add('visible');
+  setTimeout(function() {
+    calSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
 }
 
 // === TESTIMONIALS SLIDER ===
