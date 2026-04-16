@@ -617,7 +617,7 @@ a:hover { color: #fff; }
   margin: 0 auto;
 }
 
-/* === PDF WRAPPER === */
+/* === PDF — 9:16 story format (1080×1920 at scale 2) === */
 #pdf-wrapper {
   position: fixed;
   left: 0; top: 0;
@@ -628,186 +628,131 @@ a:hover { color: #fff; }
   height: 0;
 }
 #pdf-content {
-  width: 794px;
-  font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+  width: 540px;
+  font-family: 'Be Vietnam Pro', sans-serif;
   color: #FFFFFF;
 }
-/* Shared page base — A4 portrait */
 .pdf-page {
-  width: 794px;
-  height: 1123px;
-  padding: 60px 80px;
+  width: 540px;
+  height: 960px;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  background-color: #050000;
 }
 .pdf-bg-dark {
-  background-color: #0a0000;
-  background-image: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
+  background: #050000 radial-gradient(ellipse at 50% 100%, #5c0000 0%, #250000 30%, #050000 65%);
 }
-/* Page 1 — Cover */
+/* — PAGE 1: Cover — */
 .pdf-page-cover {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 40px;
 }
+.pdf-cover-logo { width: 70px; height: 70px; border-radius: 10px; margin-bottom: 40px; }
 .pdf-cover-title {
-  font-size: 72px;
-  font-weight: 900;
-  color: #FFFFFF;
-  text-transform: uppercase;
-  line-height: 1.05;
-  letter-spacing: 3px;
-  text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  font-size: 60px; font-weight: 900; color: #fff;
+  text-transform: uppercase; line-height: 1.0; letter-spacing: 2px;
 }
-.pdf-cover-title .red { color: #cc0000; }
-.pdf-cover-sub {
-  font-size: 14px;
-  font-weight: 300;
-  color: #ccc;
-  margin-top: 16px;
-}
-/* Pages 2 & 3 — Loss / Profit */
+.pdf-cover-title .red { color: #e80000; }
+.pdf-cover-sub { font-size: 13px; font-weight: 300; color: #aaa; margin-top: 20px; }
+
+/* — PAGES 2 & 3: Loss / Profit — */
 .pdf-page-loss, .pdf-page-profit {
+  padding: 48px 28px 24px;
   justify-content: center;
-  gap: 14px;
+  gap: 12px;
 }
 .pdf-hero-card {
   border-radius: 20px;
-  padding: 28px 24px;
+  padding: 24px 20px 28px;
   text-align: center;
 }
 .pdf-hero-card.loss {
-  background: rgba(140, 0, 0, 0.55);
-  border: 1px solid rgba(255, 80, 80, 0.25);
+  background: rgba(120, 0, 0, 0.6);
+  border: 1px solid rgba(200, 50, 50, 0.2);
 }
-.pdf-hero-card.profit {
-  background: #0fad5c;
-}
+.pdf-hero-card.profit { background: #0ea85a; }
 .pdf-hero-label {
-  font-size: 16px;
-  font-weight: 400;
-  color: #eee;
-  line-height: 1.4;
-  margin-bottom: 8px;
+  font-size: 17px; font-weight: 400; color: #e0e0e0;
+  line-height: 1.35; margin-bottom: 10px;
 }
 .pdf-hero-label strong { font-weight: 700; color: #fff; }
-.pdf-hero-number {
-  font-size: 48px;
-  font-weight: 900;
-  line-height: 1.1;
-}
+.pdf-hero-number { font-size: 42px; font-weight: 900; line-height: 1.1; }
 .pdf-hero-card.loss .pdf-hero-number { color: #ff7b7b; }
-.pdf-hero-card.profit .pdf-hero-number { color: #FFFFFF; }
-/* Metric boxes (stacked) */
+.pdf-hero-card.profit .pdf-hero-number { color: #fff; }
+
 .pdf-metric-box {
-  background: #1a1a1a;
+  background: #1c1c1c;
   border-radius: 14px;
-  padding: 16px 20px;
+  padding: 14px 20px 16px;
   text-align: center;
+  border: 1px solid rgba(255,255,255,0.04);
 }
-.pdf-metric-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #ccc;
-  margin-bottom: 4px;
-}
-.pdf-metric-value {
-  font-size: 32px;
-  font-weight: 800;
-}
+.pdf-metric-label { font-size: 13px; font-weight: 500; color: #bbb; margin-bottom: 2px; }
+.pdf-metric-value { font-size: 30px; font-weight: 900; }
 .pdf-metric-box.red .pdf-metric-value { color: #ff7b7b; }
 .pdf-metric-box.green .pdf-metric-value { color: #22c55e; }
+
 .pdf-page-footer {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 400;
-  color: #ccc;
-  margin-top: 8px;
-  padding-top: 4px;
+  text-align: center; font-size: 16px; font-weight: 400; color: #bbb;
+  margin-top: auto; padding-bottom: 8px;
 }
 .pdf-page-footer strong { font-weight: 700; color: #fff; }
-/* Page 4 — Breakdown */
+
+/* — PAGE 4: Breakdown — */
 .pdf-page-breakdown {
+  padding: 80px 28px 60px;
   justify-content: center;
-  gap: 20px;
+  gap: 24px;
 }
 .pdf-breakdown-bar {
-  background: #1a1a1a;
-  border-radius: 16px;
-  padding: 24px 28px;
+  background: #1c1c1c;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 18px;
+  padding: 28px 24px 32px;
   text-align: center;
 }
-.pdf-breakdown-label {
-  font-size: 16px;
-  font-weight: 600;
-  color: #ddd;
-  margin-bottom: 6px;
-}
-.pdf-breakdown-value {
-  font-size: 38px;
-  font-weight: 900;
-  color: #ff7b7b;
-}
+.pdf-breakdown-label { font-size: 17px; font-weight: 600; color: #ddd; margin-bottom: 6px; }
+.pdf-breakdown-value { font-size: 42px; font-weight: 900; color: #ff7b7b; }
 .pdf-d6-note {
-  font-size: 12px;
-  font-style: italic;
-  color: #E8D9B0;
-  text-align: center;
-  padding: 8px 12px;
+  font-size: 12px; font-style: italic; color: #E8D9B0;
+  text-align: center; padding: 8px 12px;
   background: rgba(232,217,176,0.06);
-  border-left: 3px solid #E8D9B0;
-  border-radius: 4px;
+  border-left: 3px solid #E8D9B0; border-radius: 4px;
 }
-/* Page 5 — Bundle */
+
+/* — PAGE 5: Bundle — */
 .pdf-page-bundle {
-  background-color: #0a0000;
-  background-image: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
+  background: #050000 radial-gradient(ellipse at 50% 100%, #5c0000 0%, #250000 30%, #050000 65%);
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 48px 32px;
 }
 .pdf-bundle-pill {
   display: inline-block;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 999px;
-  padding: 8px 24px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #eee;
-  margin-bottom: 24px;
+  padding: 10px 28px;
+  font-size: 15px; font-weight: 400; color: #eee;
+  margin-bottom: 28px;
 }
-.pdf-bundle-pill em {
-  font-style: normal;
-  color: #22c55e;
-  font-weight: 700;
-}
+.pdf-bundle-pill em { font-style: normal; color: #22c55e; font-weight: 700; }
 .pdf-bundle-prefix {
-  font-size: 22px;
-  font-weight: 400;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: 4px;
+  font-size: 20px; font-weight: 400; color: #555;
+  text-transform: uppercase; letter-spacing: 4px; margin-bottom: 0;
 }
 .pdf-bundle-name-big {
-  font-size: 84px;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 1.0;
-  margin-bottom: 28px;
-  letter-spacing: -1px;
+  font-size: 74px; font-weight: 900; text-transform: uppercase;
+  color: #fff; line-height: 1.0; margin-bottom: 32px; letter-spacing: -1px;
 }
 .pdf-bundle-text {
-  font-size: 13px;
-  font-weight: 300;
-  color: #ccc;
-  line-height: 1.7;
-  max-width: 440px;
-  text-align: center;
+  font-size: 13px; font-weight: 300; color: #bbb;
+  line-height: 1.7; max-width: 420px; text-align: center;
 }
 
 /* === RESPONSIVE === */
@@ -1273,7 +1218,7 @@ a:hover { color: #fff; }
 
   <!-- PAGE 1 — Cover -->
   <div class="pdf-page pdf-bg-dark pdf-page-cover">
-    <img src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/6920f1775408c6ac15161f6f.svg" alt="Infrastrutture AI" style="width:80px;height:80px;margin-bottom:32px;border-radius:12px;" crossorigin="anonymous">
+    <img class="pdf-cover-logo" src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/6920f1775408c6ac15161f6f.svg" alt="Infrastrutture AI" crossorigin="anonymous">
     <h1 class="pdf-cover-title">DEEP SCAN<br><span class="red">AZIENDALE AI</span></h1>
     <p class="pdf-cover-sub">Analisi personalizzata per <span id="pdf-name"></span></p>
     <p class="pdf-cover-sub"><span id="pdf-date"></span></p>
@@ -1690,8 +1635,8 @@ function downloadPDF() {
         margin: 0,
         filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
         image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#000000' },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050000', windowWidth: 540 },
+        jsPDF: { unit: 'mm', format: [142.88, 254], orientation: 'portrait' }
       }).from(element).save().then(function() {
         wrapper.style.height = '0';
         wrapper.style.opacity = '0';
