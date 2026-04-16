@@ -1609,8 +1609,7 @@ a:hover { color: #fff; }
 
 <script>
 // === CONFIGURATION ===
-// TODO(config): fill these in before going live. Leave empty strings to skip the webhook call.
-const WEBHOOK_URL = '';
+const WEBHOOK_URL = 'https://n8n.srv869356.hstgr.cloud/webhook/bd4cb7ab-8189-424c-a4af-c46486bccdc8';
 const BOOKING_URL = 'https://info.infrastruttureai.io/widget/booking/9bwV7iPSIkPwFhMvSpaF';
 const PRIVACY_URL = 'https://infrastrutture.ai/privacy-policy';
 const TERMS_URL = 'https://infrastrutture.ai/termini-e-condizioni';
@@ -1898,39 +1897,51 @@ function submitQuiz() {
   document.getElementById('ty-section').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // === FIRE WEBHOOK (background, non-blocking) ===
+  // === FIRE WEBHOOK with PDF attached (background, non-blocking) ===
+  // Generate the PDF once — this same promise is reused by the "Scarica" button
+  // so the download is instant after the webhook finishes.
   if (WEBHOOK_URL) {
-    fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome: nome,
-        cognome: cognome,
-        telefono: telefono,
-        email: email,
-        d1: d1,
-        d2: d2,
-        d3: d3,
-        d4: d4Selections,
-        d5: d5,
-        d6: d6,
-        d7: d7,
-        d8: d8,
-        perdita_giornaliera: Math.round(totalDailyLoss),
-        perdita_mensile: Math.round(monthlyLoss),
-        perdita_annuale: Math.round(annualLoss),
-        profitto_potenziale: Math.round(firstMonthProfit),
-        profitto_6_mesi: Math.round(profit6Months),
-        profitto_annuale: Math.round(profitAnnual),
-        perdita_lead_mensile: Math.round(monthlyLeadLoss),
-        costo_operativo_mensile: bundleCost,
-        bundle: bundle,
-        motivazione_bundle: BUNDLE_MOTIVATIONS[bundle],
-        d5_frame: D5_FRAMES[d5],
-        d8_profilo: D8_PROFILES[d8],
-        timestamp: new Date().toISOString()
-      })
-    }).catch(function() {}); // Silent fail
+    var submissionFields = {
+      nome: nome,
+      cognome: cognome,
+      telefono: telefono,
+      email: email,
+      d1: d1,
+      d2: d2,
+      d3: d3,
+      d4: JSON.stringify(d4Selections),
+      d5: d5,
+      d6: d6,
+      d7: d7,
+      d8: d8,
+      perdita_giornaliera: Math.round(totalDailyLoss),
+      perdita_mensile: Math.round(monthlyLoss),
+      perdita_annuale: Math.round(annualLoss),
+      profitto_potenziale: Math.round(firstMonthProfit),
+      profitto_6_mesi: Math.round(profit6Months),
+      profitto_annuale: Math.round(profitAnnual),
+      perdita_lead_mensile: Math.round(monthlyLeadLoss),
+      costo_operativo_mensile: bundleCost,
+      bundle: bundle,
+      motivazione_bundle: BUNDLE_MOTIVATIONS[bundle],
+      d5_frame: D5_FRAMES[d5],
+      d8_profilo: D8_PROFILES[d8],
+      timestamp: new Date().toISOString()
+    };
+    ensurePdfPromise().then(function(pdf) {
+      var data = window._pdfData || collectPdfData();
+      var filename = pdfFilename(data);
+      var blob = pdf.output('blob');
+      var fd = new FormData();
+      Object.keys(submissionFields).forEach(function(k) {
+        fd.append(k, submissionFields[k] == null ? '' : String(submissionFields[k]));
+      });
+      fd.append('filename', filename);
+      fd.append('report', blob, filename);
+      return fetch(WEBHOOK_URL, { method: 'POST', body: fd });
+    }).catch(function(err) {
+      console.warn('[webhook] failed:', err);
+    });
   }
 }
 
@@ -2060,16 +2071,47 @@ function _waitForImages(el) {
   return Promise.all(pending);
 }
 
-function downloadPDF() {
+// Render the 4-page PDF to a jsPDF doc and resolve with the doc once it's ready.
+// Shared by the download button and the webhook so we only render once per submission.
+function renderPdfDoc(data) {
+  var host = document.createElement('div');
+  host.style.cssText = 'position:fixed;left:0;top:0;width:'+PDF_W+'px;opacity:0;pointer-events:none;z-index:-1;';
+  host.innerHTML = buildPdfHtml(data);
+  document.body.appendChild(host);
+
+  var html2canvas = window.html2canvas;
+  var jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+
+  return _waitForImages(host).then(function() {
+    var pageEls = host.querySelectorAll('.pdf-page');
+    var pdf = new jsPDF({ unit: 'mm', format: [PDF_MM_W, PDF_MM_H], orientation: 'landscape' });
+    var chain = Promise.resolve();
+    pageEls.forEach(function(el, idx) {
+      chain = chain.then(function() {
+        return html2canvas(el, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#080000', logging: false });
+      }).then(function(canvas) {
+        var img = canvas.toDataURL('image/jpeg', 0.92);
+        if (idx > 0) pdf.addPage([PDF_MM_W, PDF_MM_H], 'landscape');
+        pdf.addImage(img, 'JPEG', 0, 0, PDF_MM_W, PDF_MM_H);
+      });
+    });
+    return chain.then(function() { return pdf; });
+  }).then(function(pdf) {
+    if (host.parentNode) document.body.removeChild(host);
+    return pdf;
+  }, function(err) {
+    if (host.parentNode) document.body.removeChild(host);
+    throw err;
+  });
+}
+
+// Build the data object the PDF renderer needs from the hidden TY spans.
+function collectPdfData() {
   var nome = document.getElementById('field-nome').value.trim();
   var cognome = document.getElementById('field-cognome').value.trim();
-
-  // Hidden data spans hold the formatted strings with suffixes (e.g. "1.176€/giorno").
-  // The big "hero" numbers on page 2 should use the raw amount + a short suffix,
-  // so we strip "/giorno" from dailyLoss and reuse "+" for firstProfit.
   var daily = document.getElementById('ty-daily-loss').textContent;
   var first = document.getElementById('ty-first-profit').textContent;
-  var data = {
+  return {
     nome: nome,
     cognome: cognome,
     date: document.getElementById('ty-date').textContent,
@@ -2089,47 +2131,36 @@ function downloadPDF() {
     bundleName: window._quizBundleName || '',
     bundleMotivation: window._quizBundleMotivation || ''
   };
+}
 
-  // Mount the PDF source off-screen so images load in the real DOM before capture.
-  // Left -99999px works but html2canvas v1 sometimes fails on elements outside
-  // the viewport on some WebKit builds; opacity:0 + top:0 is a safer compromise.
-  var host = document.createElement('div');
-  host.style.cssText = 'position:fixed;left:0;top:0;width:'+PDF_W+'px;opacity:0;pointer-events:none;z-index:-1;';
-  host.innerHTML = buildPdfHtml(data);
-  document.body.appendChild(host);
+function pdfFilename(data) {
+  return 'Deep_Scan_' + (data.nome || '').replace(/\s+/g,'_') + '_' + (data.cognome || '').replace(/\s+/g,'_') + '.pdf';
+}
 
+// Cache the PDF-doc promise so submit + download button share one render.
+function ensurePdfPromise() {
+  if (!window._pdfPromise) {
+    var data = collectPdfData();
+    window._pdfData = data;
+    window._pdfPromise = renderPdfDoc(data);
+  }
+  return window._pdfPromise;
+}
+
+function downloadPDF() {
   var btn = document.querySelector('button[onclick="downloadPDF()"]');
   var origLabel = btn ? btn.innerHTML : null;
   if (btn) { btn.innerHTML = 'Preparo il PDF\u2026'; btn.disabled = true; }
 
-  var html2canvas = window.html2canvas;
-  var jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
-
-  _waitForImages(host).then(function() {
-    console.log('[pdf] images loaded; jsPDF=', typeof jsPDF, 'html2canvas=', typeof html2canvas);
-    var pageEls = host.querySelectorAll('.pdf-page');
-    console.log('[pdf] page count', pageEls.length);
-    var pdf = new jsPDF({ unit: 'mm', format: [PDF_MM_W, PDF_MM_H], orientation: 'landscape' });
-    var chain = Promise.resolve();
-    pageEls.forEach(function(el, idx) {
-      chain = chain.then(function() {
-        console.log('[pdf] rendering page', idx+1);
-        return html2canvas(el, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#080000', logging: false });
-      }).then(function(canvas) {
-        var img = canvas.toDataURL('image/jpeg', 0.92);
-        if (idx > 0) pdf.addPage([PDF_MM_W, PDF_MM_H], 'landscape');
-        pdf.addImage(img, 'JPEG', 0, 0, PDF_MM_W, PDF_MM_H);
-      });
-    });
-    return chain.then(function() {
-      console.log('[pdf] saving');
-      pdf.save('Deep_Scan_' + nome + '_' + cognome + '.pdf');
-    });
+  ensurePdfPromise().then(function(pdf) {
+    var data = window._pdfData || collectPdfData();
+    pdf.save(pdfFilename(data));
   }).catch(function(err) {
     console.error('PDF generation failed:', err);
     alert('Si \u00E8 verificato un errore durante la generazione del PDF. Riprova.');
+    // Clear the cached promise so a retry re-renders.
+    window._pdfPromise = null;
   }).then(function() {
-    if (host.parentNode) document.body.removeChild(host);
     if (btn) { btn.innerHTML = origLabel; btn.disabled = false; }
   });
 }
