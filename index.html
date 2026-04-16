@@ -13,7 +13,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 /* === RESET & BASE === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -345,81 +346,197 @@ a:hover { color: #fff; }
 /* Hidden data spans */
 .ty-hidden-data { display: none; }
 
-/* --- Report cards --- */
+/* --- Calculator (BLOCCO 1 + 2 template style) --- */
 .ty-report {
-  max-width: 700px;
-  margin: 32px auto;
+  max-width: 900px;
+  margin: 24px auto 8px;
   padding: 0;
 }
 .ty-report-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 18px;
+  margin-bottom: 18px;
 }
-.ty-rpt-card {
-  border-radius: 16px;
-  padding: 24px 20px;
+.ty-rpt-col { display: flex; flex-direction: column; }
+.ty-rpt-hero {
+  border-radius: 24px;
+  padding: 22px 16px;
   text-align: center;
-}
-.ty-rpt-card.loss {
-  background: rgba(183, 0, 0, 0.35);
-  border: 1px solid rgba(232, 46, 46, 0.3);
-}
-.ty-rpt-card.profit {
-  background: rgba(21, 128, 61, 0.25);
-  border: 1px solid rgba(21, 128, 61, 0.3);
-}
-.ty-rpt-label {
-  font-size: 13px;
-  font-weight: 400;
-  color: #ccc;
-  margin-bottom: 8px;
-}
-.ty-rpt-number {
-  font-size: 36px;
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 6px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-}
-.ty-rpt-card.loss .ty-rpt-number { color: #e82e2e; }
-.ty-rpt-card.profit .ty-rpt-number { color: #22c55e; }
-.ty-rpt-sub {
-  font-size: 12px;
-  color: #999;
-}
-.ty-breakdown {
-  width: 100%;
-  border-collapse: collapse;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 12px;
 }
-.ty-breakdown td {
-  padding: 12px 14px;
-  font-size: 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  color: #ccc;
+.ty-rpt-card.loss .ty-rpt-hero { background: #7c1a1a; }
+.ty-rpt-card.profit .ty-rpt-hero { background: #22c55e; }
+.ty-rpt-label {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 10px;
+  line-height: 1.35;
 }
-.ty-breakdown td:last-child {
-  text-align: right;
-  font-weight: 700;
-  color: #e82e2e;
+.ty-rpt-number {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(30px, 6vw, 48px);
+  font-weight: 900;
+  line-height: 1.0;
+  margin: 0;
+  letter-spacing: -1px;
 }
-.ty-rpt-d6 {
+.ty-rpt-card.loss .ty-rpt-number { color: #f76060; }
+.ty-rpt-card.profit .ty-rpt-number { color: #fff; }
+
+.ty-rpt-pill {
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 999px;
+  padding: 10px 16px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.ty-rpt-pill-lbl {
+  font-family: 'Inter', sans-serif;
   font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 2px;
+}
+.ty-rpt-pill-val {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(17px, 2.4vw, 22px);
+  font-weight: 900;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.ty-rpt-card.loss .ty-rpt-pill-val { color: #f76060; }
+.ty-rpt-card.profit .ty-rpt-pill-val { color: #22c55e; }
+.ty-rpt-footnote {
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: #fff;
+  margin: 6px 0 0;
+}
+.ty-rpt-footnote strong { font-weight: 800; }
+
+/* Extra breakdown (Dispersione / Costo / Lead) */
+.ty-rpt-breakdown {
+  margin: 18px 0 6px;
+}
+.ty-rpt-bar {
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 999px;
+  padding: 14px 22px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.ty-rpt-bar-lbl {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.6vw, 15px);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px;
+}
+.ty-rpt-bar-val {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(22px, 3.4vw, 32px);
+  font-weight: 900;
+  color: #f76060;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.ty-rpt-d6 {
+  font-size: 13px;
   font-style: italic;
   color: #E8D9B0;
-  padding: 8px 14px;
+  padding: 10px 14px;
   background: rgba(232,217,176,0.06);
   border-left: 3px solid #E8D9B0;
   border-radius: 4px;
-  margin-bottom: 12px;
+  margin: 12px 0;
   display: none;
 }
 .ty-rpt-d6.visible { display: block; }
+
 @media (max-width: 600px) {
-  .ty-report-cards { grid-template-columns: 1fr; }
-  .ty-rpt-number { font-size: 28px; }
+  .ty-report-cards { grid-template-columns: 1fr; gap: 14px; }
+  .ty-rpt-hero { min-height: 140px; padding: 18px 12px; }
+}
+
+/* Down-chevron block under first CTA */
+.ty-chevrons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 24px auto 0;
+  opacity: 0.7;
+}
+.ty-chevrons svg { width: 26px; height: 14px; stroke: #fff; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --- Bundle recommendation block (BLOCCO 3 from the spec) --- */
+.ty-bundle-section {
+  background: radial-gradient(ellipse at 50% 50%, #3d0000 0%, #1a0000 45%, #000 100%);
+  padding: 64px 16px 72px;
+  text-align: center;
+}
+.ty-bundle-section .ty-wrap { max-width: 720px; }
+.ty-bundle-pill {
+  display: inline-block;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.6vw, 15px);
+  color: #eee;
+  margin-bottom: 18px;
+}
+.ty-bundle-pill .accent { color: #22c55e; font-weight: 700; }
+.ty-bundle-kicker {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(13px, 1.5vw, 15px);
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: #888;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+.ty-bundle-name {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(40px, 8vw, 72px);
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 1.0;
+  letter-spacing: -1.5px;
+  margin: 0 0 24px;
+}
+.ty-bundle-why {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(13px, 1.6vw, 15px);
+  font-weight: 700;
+  color: #E8D9B0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 12px;
+}
+.ty-bundle-motivation {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(15px, 1.8vw, 17px);
+  font-weight: 400;
+  color: #ddd;
+  line-height: 1.65;
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 /* --- Section 1: Hero Complimenti --- */
@@ -781,28 +898,38 @@ a:hover { color: #fff; }
   margin: 24px 0 0;
 }
 
-/* --- Section 9: Robot CTA --- */
+/* --- Section 9: Robot CTA with green pill --- */
 .ty-robot-cta {
   background: radial-gradient(ellipse at 50% 85%, #8b0000 0%, #3d0000 25%, #1a0000 55%, #000000 100%);
   padding: 60px 16px;
   text-align: center;
   cursor: pointer;
+  position: relative;
 }
 .ty-robot-cta img {
   display: block;
   max-width: 500px;
   width: 100%;
-  margin: 0 auto 24px;
+  margin: 0 auto -12px;
+  position: relative;
+  z-index: 1;
 }
-.ty-robot-cta h2 {
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 900;
+.ty-robot-cta .robot-pill {
+  display: inline-block;
+  background: #22c55e;
   color: #fff;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: clamp(20px, 3.6vw, 30px);
+  font-weight: 900;
   text-transform: uppercase;
-  line-height: 1.2;
-  max-width: 600px;
-  margin: 0 auto;
+  line-height: 1.15;
+  letter-spacing: 0;
+  padding: 18px 40px;
+  border-radius: 999px;
+  max-width: 560px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 28px rgba(34,197,94,0.35);
 }
 
 /* --- Section 10: Final CTA --- */
@@ -1166,7 +1293,7 @@ a:hover { color: #fff; }
         <div class="field-error" id="err-consent" style="margin-left: 28px;">Devi acconsentire per procedere</div>
 
         <div class="legal-links">
-          <a href="#" target="_blank">Privacy Policy</a> | <a href="#" target="_blank">Terms of Service</a>
+          <a id="legal-privacy-quiz" href="#" target="_blank" rel="noopener">Privacy Policy</a> | <a id="legal-terms-quiz" href="#" target="_blank" rel="noopener">Terms of Service</a>
         </div>
       </div>
       <div class="nav-buttons">
@@ -1204,25 +1331,39 @@ a:hover { color: #fff; }
       <p class="ty-hero-sub">Il nostro <em><strong>Deep Scan Aziendale AI</strong></em> ha elaborato i tuoi dati</p>
       <p class="ty-hero-meta">Analisi personalizzata per <span id="ty-name"></span> &middot; <span id="ty-date"></span></p>
 
-      <!-- Report numbers -->
+      <!-- Calculator (BLOCCO 1 + 2 template style) -->
       <div class="ty-report">
         <div class="ty-report-cards">
-          <div class="ty-rpt-card loss">
-            <p class="ty-rpt-label">La tua azienda sta perdendo ogni giorno:</p>
-            <p class="ty-rpt-number" id="ty-daily-loss-vis"></p>
-            <p class="ty-rpt-sub"><span id="ty-monthly-loss-vis"></span>/mese &middot; <span id="ty-annual-loss-vis"></span>/anno</p>
+          <!-- LEFT: LOSS CARD -->
+          <div class="ty-rpt-card loss ty-rpt-col">
+            <div class="ty-rpt-hero">
+              <p class="ty-rpt-label">La tua <strong>azienda sta perdendo</strong><br>ogni giorno:</p>
+              <p class="ty-rpt-number" id="ty-daily-loss-vis"></p>
+            </div>
+            <div class="ty-rpt-pill"><p class="ty-rpt-pill-lbl">Perdita Giornaliera:</p><p class="ty-rpt-pill-val" id="ty-daily-loss-pill"></p></div>
+            <div class="ty-rpt-pill"><p class="ty-rpt-pill-lbl">Perdita Mensile:</p><p class="ty-rpt-pill-val" id="ty-monthly-loss-vis"></p></div>
+            <div class="ty-rpt-pill"><p class="ty-rpt-pill-lbl">Perdita Annuale:</p><p class="ty-rpt-pill-val" id="ty-annual-loss-vis"></p></div>
+            <p class="ty-rpt-footnote"><strong>senza</strong> un ecosistema AI</p>
           </div>
-          <div class="ty-rpt-card profit">
-            <p class="ty-rpt-label">Profitto potenziale gi&agrave; dal primo mese:</p>
-            <p class="ty-rpt-number" id="ty-first-profit-vis"></p>
-            <p class="ty-rpt-sub">+<span id="ty-profit-6m-vis"></span> in 6 mesi &middot; +<span id="ty-profit-annual-vis"></span>/anno</p>
+          <!-- RIGHT: PROFIT CARD -->
+          <div class="ty-rpt-card profit ty-rpt-col">
+            <div class="ty-rpt-hero">
+              <p class="ty-rpt-label"><strong>Profitto potenziale</strong><br>gi&agrave; dal primo mese:</p>
+              <p class="ty-rpt-number" id="ty-first-profit-vis"></p>
+            </div>
+            <div class="ty-rpt-pill"><p class="ty-rpt-pill-lbl">Profitto Primo Mese:</p><p class="ty-rpt-pill-val" id="ty-profit-month-vis"></p></div>
+            <div class="ty-rpt-pill"><p class="ty-rpt-pill-lbl">Profitto in 6 Mesi:</p><p class="ty-rpt-pill-val" id="ty-profit-6m-vis"></p></div>
+            <div class="ty-rpt-pill"><p class="ty-rpt-pill-lbl">Profitto Annuale:</p><p class="ty-rpt-pill-val" id="ty-profit-annual-vis"></p></div>
+            <p class="ty-rpt-footnote">con il <strong>sistema giusto</strong> installato</p>
           </div>
         </div>
-        <table class="ty-breakdown">
-          <tr><td>Dispersione operativa giornaliera</td><td id="ty-op-loss-vis"></td></tr>
-          <tr><td>Costo operativo mensile recuperabile</td><td id="ty-bundle-cost-vis"></td></tr>
-          <tr><td>Lead non lavorati (mensile)</td><td id="ty-lead-loss-vis"></td></tr>
-        </table>
+
+        <!-- BLOCCO 2 breakdown -->
+        <div class="ty-rpt-breakdown">
+          <div class="ty-rpt-bar"><p class="ty-rpt-bar-lbl">Dispersione Operativa Giornaliera:</p><p class="ty-rpt-bar-val" id="ty-op-loss-vis"></p></div>
+          <div class="ty-rpt-bar"><p class="ty-rpt-bar-lbl">Costo Operativo Mensile Recuperabile:</p><p class="ty-rpt-bar-val" id="ty-bundle-cost-vis"></p></div>
+          <div class="ty-rpt-bar"><p class="ty-rpt-bar-lbl">Lead Non Lavorati (mensile):</p><p class="ty-rpt-bar-val" id="ty-lead-loss-vis"></p></div>
+        </div>
         <div class="ty-rpt-d6" id="ty-d6-note-vis">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
       </div>
 
@@ -1241,12 +1382,27 @@ a:hover { color: #fff; }
     </div>
   </div>
 
+  <!-- SECTION 1b — Bundle raccomandato (from spec BLOCCO 3) -->
+  <div class="ty-bundle-section">
+    <div class="ty-wrap">
+      <p class="ty-bundle-pill">Ecco la <span class="accent">soluzione</span> che fa al caso tuo:</p>
+      <p class="ty-bundle-kicker">ECOSISTEMA AI &mdash;</p>
+      <p class="ty-bundle-name" id="ty-bundle-name-vis">&mdash;</p>
+      <p class="ty-bundle-why">Perch&eacute; questo sistema:</p>
+      <p class="ty-bundle-motivation" id="ty-bundle-motivation-vis"></p>
+    </div>
+  </div>
+
   <!-- SECTION 2 — First CTA -->
   <div class="ty-cta-section">
     <button class="cta-btn" onclick="showCalendar()" style="margin:0 auto;display:flex;">
       Voglio parlare con un vostro AI Specialist
       <span class="cta-sub">30 minuti &middot; gratis</span>
     </button>
+    <div class="ty-chevrons" aria-hidden="true">
+      <svg viewBox="0 0 26 14"><polyline points="2 2 13 12 24 2"/></svg>
+      <svg viewBox="0 0 26 14"><polyline points="2 2 13 12 24 2"/></svg>
+    </div>
   </div>
 
   <!-- SECTION 3 — Calendar embed (hidden by default) -->
@@ -1409,10 +1565,10 @@ a:hover { color: #fff; }
     </div>
   </div>
 
-  <!-- SECTION 9 — Robot CTA -->
+  <!-- SECTION 9 — Robot CTA with green pill -->
   <div class="ty-robot-cta" onclick="showCalendar()">
     <img src="assets/robot-cover.svg" alt="Infrastrutture AI Robot">
-    <h2>VOGLIO SAPERE DA DOVE INIZIARE CON L&rsquo;AI</h2>
+    <div class="robot-pill">VOGLIO SAPERE DA DOVE INIZIARE CON L&rsquo;AI</div>
   </div>
 
   <!-- SECTION 10 — Final CTA + text -->
@@ -1444,7 +1600,7 @@ a:hover { color: #fff; }
     <p>Albion House Unit 6, High Street, Woking, Surrey, England, GU21 6BG</p>
     <p>Company number 16044889</p>
     <p class="ty-fb-disclaimer">This site is not part of Facebook or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.</p>
-    <p style="margin-top: 8px;"><a href="#" target="_blank">Privacy Policy</a> | <a href="#" target="_blank">Termini e condizioni</a></p>
+    <p style="margin-top: 8px;"><a id="legal-privacy-footer" href="#" target="_blank" rel="noopener">Privacy Policy</a> | <a id="legal-terms-footer" href="#" target="_blank" rel="noopener">Termini e condizioni</a></p>
   </div>
 
 </section>
@@ -1453,8 +1609,11 @@ a:hover { color: #fff; }
 
 <script>
 // === CONFIGURATION ===
-const WEBHOOK_URL = 'REPLACE_WITH_WEBHOOK_URL';
-const BOOKING_URL = 'REPLACE_WITH_BOOKING_PAGE_URL';
+// TODO(config): fill these in before going live. Leave empty strings to skip the webhook call.
+const WEBHOOK_URL = '';
+const BOOKING_URL = 'https://info.infrastruttureai.io/widget/booking/uNuq13baAP9SVs5b1jv6';
+const PRIVACY_URL = 'https://infrastrutture.ai/privacy-policy';
+const TERMS_URL = 'https://infrastrutture.ai/termini-e-condizioni';
 const CANONICAL_URL = 'https://lp.infrastrutture.ai/deep-scan';
 const CONVERSION_RATE = 0.20;
 const DISPERSION_RATE = 0.10;
@@ -1707,19 +1866,25 @@ function submitQuiz() {
   document.getElementById('ty-bundle-name').textContent = 'ECOSISTEMA AI - ' + bundle;
   document.getElementById('ty-bundle-motivation').textContent = BUNDLE_MOTIVATIONS[bundle];
 
-  // Populate visible report cards
-  document.getElementById('ty-daily-loss-vis').textContent = formatEuro(totalDailyLoss) + '/giorno';
-  document.getElementById('ty-monthly-loss-vis').textContent = formatEuro(monthlyLoss);
-  document.getElementById('ty-annual-loss-vis').textContent = formatEuro(annualLoss);
+  // Populate visible report cards (hero numbers + pill rows matching BLOCCO 1 & 2).
+  document.getElementById('ty-daily-loss-vis').textContent = formatEuro(totalDailyLoss);
+  document.getElementById('ty-daily-loss-pill').textContent = formatEuro(totalDailyLoss) + '/giorno';
+  document.getElementById('ty-monthly-loss-vis').textContent = formatEuro(monthlyLoss) + '/mese';
+  document.getElementById('ty-annual-loss-vis').textContent = formatEuro(annualLoss) + '/anno';
   document.getElementById('ty-first-profit-vis').textContent = '+' + formatEuro(firstMonthProfit);
-  document.getElementById('ty-profit-6m-vis').textContent = formatEuro(profit6Months);
-  document.getElementById('ty-profit-annual-vis').textContent = formatEuro(profitAnnual);
+  document.getElementById('ty-profit-month-vis').textContent = '+' + formatEuro(firstMonthProfit) + '/mese';
+  document.getElementById('ty-profit-6m-vis').textContent = '+' + formatEuro(profit6Months);
+  document.getElementById('ty-profit-annual-vis').textContent = '+' + formatEuro(profitAnnual) + '/anno';
   document.getElementById('ty-op-loss-vis').textContent = formatEuro(operationalDailyLoss) + '/giorno';
   document.getElementById('ty-bundle-cost-vis').textContent = formatEuro(bundleCost) + '/mese';
   document.getElementById('ty-lead-loss-vis').textContent = formatEuro(monthlyLeadLoss) + '/mese';
   if (d6 === 'D') {
     document.getElementById('ty-d6-note-vis').classList.add('visible');
   }
+
+  // Populate visible bundle section
+  document.getElementById('ty-bundle-name-vis').textContent = bundle.toUpperCase();
+  document.getElementById('ty-bundle-motivation-vis').textContent = BUNDLE_MOTIVATIONS[bundle];
 
   // CTA links now use showCalendar() directly via onclick
 
@@ -1734,7 +1899,7 @@ function submitQuiz() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // === FIRE WEBHOOK (background, non-blocking) ===
-  if (WEBHOOK_URL && WEBHOOK_URL !== 'REPLACE_WITH_WEBHOOK_URL') {
+  if (WEBHOOK_URL) {
     fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1770,88 +1935,150 @@ function submitQuiz() {
 }
 
 // === PDF GENERATION ===
-function buildPdfHtml(data) {
-  var W = 540, H = 960;
+// 4-page landscape report matching PDF Template/TEMPLATE_DEEP SCAN/ (1280x720 per page).
+// One canvas per page assembled via jsPDF.addPage.
+// Bundle display names are the 2nd-person verb forms from the template art
+// (CONTROLLI / SCALI / MONETIZZI), not the internal bundle identifiers.
+var PDF_W = 1280, PDF_H = 720;
+var PDF_MM_W = 254, PDF_MM_H = 142.88; // landscape
+
+// Bundle identifier (from calc) → label shown on cover + robot art file.
+var BUNDLE_DISPLAY = {
+  DOMINA: { label: 'CONTROLLI', robot: 'robot-domina.svg' },
+  SCALA: { label: 'SCALI', robot: 'robot-scala.svg' },
+  MONETIZZA: { label: 'MONETIZZI', robot: 'robot-monetizza.svg' }
+};
+
+function _pdfPage(extraStyle, inner) {
   var bg = 'background:#080000;background-image:radial-gradient(ellipse at 50% 100%,#5c0000 0%,#250000 30%,#080000 65%);';
-  var page = 'width:'+W+'px;height:'+H+'px;display:flex;flex-direction:column;overflow:hidden;font-family:Be Vietnam Pro,sans-serif;color:#fff;';
-  var card = 'border-radius:20px;padding:24px 20px 28px;text-align:center;';
-  var metricBox = 'background:#1c1c1c;border-radius:14px;padding:14px 20px 16px;text-align:center;border:1px solid rgba(255,255,255,0.04);';
-  var barStyle = 'background:#1c1c1c;border:1px solid rgba(255,255,255,0.04);border-radius:18px;padding:28px 24px 32px;text-align:center;';
-  var labelS = 'font-size:13px;font-weight:500;color:#bbb;margin:0 0 2px;';
-  var valRed = 'font-size:30px;font-weight:900;color:#ff7b7b;margin:0;';
-  var valGreen = 'font-size:30px;font-weight:900;color:#22c55e;margin:0;';
-  var bigBarVal = 'font-size:42px;font-weight:900;color:#ff7b7b;margin:0;';
-  var barLabel = 'font-size:17px;font-weight:600;color:#ddd;margin:0 0 6px;';
-  var footer = 'text-align:center;font-size:16px;font-weight:400;color:#bbb;margin-top:auto;padding-bottom:8px;';
+  var base = 'width:'+PDF_W+'px;height:'+PDF_H+'px;box-sizing:border-box;position:relative;overflow:hidden;font-family:\'Be Vietnam Pro\',sans-serif;color:#fff;';
+  return '<div class="pdf-page" style="'+base+bg+extraStyle+'">'+inner+'</div>';
+}
 
-  // PAGE 1 — Cover
-  var p1 = '<div style="'+page+bg+'align-items:center;justify-content:flex-end;text-align:center;padding:40px 40px 60px;">'
-    + '<p style="font-size:52px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.0;letter-spacing:2px;margin:0 0 8px;">DEEP SCAN</p>'
-    + '<p style="font-size:52px;font-weight:900;color:#e80000;text-transform:uppercase;line-height:1.0;letter-spacing:2px;margin:0;">AZIENDALE AI</p>'
-    + '<img src="assets/robot-cover.svg" style="width:320px;height:auto;margin-top:-40px;margin-bottom:-20px;" crossorigin="anonymous">'
-    + '<p style="font-size:12px;font-weight:300;color:#aaa;margin-top:16px;">Analisi personalizzata per '+data.nome+' '+data.cognome+' \u00B7 '+data.date+'</p>'
-    + '</div>';
+// Bundle word color (per template BLOCCO 3 art style).
+var BUNDLE_WORD_COLOR = {
+  CONTROLLI: 'linear-gradient(180deg,#d82a35 0%,#6e0e14 100%)', // blood red on Domina art
+  SCALI: 'linear-gradient(180deg,#d9a74a 0%,#8a6418 100%)',     // gold on Scala art
+  MONETIZZI: 'linear-gradient(180deg,#6a5cff 0%,#2a1f88 100%)'  // purple on Monetizza art
+};
 
-  // PAGE 2 — Loss
-  var p2 = '<div style="'+page+bg+'padding:48px 28px 24px;justify-content:center;gap:12px;">'
-    + '<div style="'+card+'background:rgba(120,0,0,0.6);border:1px solid rgba(200,50,50,0.2);">'
-    +   '<p style="font-size:17px;font-weight:400;color:#e0e0e0;line-height:1.35;margin:0 0 10px;">La tua <strong style="font-weight:700;color:#fff;">azienda sta perdendo</strong><br>ogni giorno:</p>'
-    +   '<p style="font-size:42px;font-weight:900;color:#ff7b7b;line-height:1.1;margin:0;">'+data.dailyLoss+'</p>'
+function buildPdfHtml(data) {
+  // Shared styles for the stacked metric pills (label on top, big value below).
+  var pillRow   = 'background:#0a0a0a;border:1px solid rgba(255,255,255,0.04);border-radius:999px;padding:12px 24px;text-align:center;margin-bottom:14px;';
+  var pillLabel = 'font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#fff;margin:0 0 2px;';
+  var pillValR  = 'font-family:\'Be Vietnam Pro\',sans-serif;font-size:26px;font-weight:900;color:#f76060;margin:0;line-height:1;letter-spacing:-0.5px;';
+  var pillValG  = 'font-family:\'Be Vietnam Pro\',sans-serif;font-size:26px;font-weight:900;color:#22c55e;margin:0;line-height:1;letter-spacing:-0.5px;';
+
+  // PAGE 1 — Cover: title right, robot left (matches PAGE 1.png).
+  var p1Inner =
+    '<img src="assets/robot-cover.svg" crossorigin="anonymous" style="position:absolute;left:0;top:0;height:100%;width:auto;object-fit:cover;">'
+    + '<div style="position:absolute;right:60px;top:50%;transform:translateY(-50%);text-align:right;max-width:62%;">'
+    +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:120px;font-weight:900;color:#fff;text-transform:uppercase;line-height:0.95;letter-spacing:-2px;margin:0 0 8px;">DEEP SCAN</p>'
+    +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:120px;font-weight:900;color:#e80000;text-transform:uppercase;line-height:0.95;letter-spacing:-2px;margin:0;">AZIENDALE AI</p>'
     + '</div>'
-    + '<div style="'+metricBox+'"><p style="'+labelS+'">Perdita Giornaliera:</p><p style="'+valRed+'">'+data.dailyLoss+'</p></div>'
-    + '<div style="'+metricBox+'"><p style="'+labelS+'">Perdita Mensile:</p><p style="'+valRed+'">'+data.monthlyLoss+'</p></div>'
-    + '<div style="'+metricBox+'"><p style="'+labelS+'">Perdita Annuale:</p><p style="'+valRed+'">'+data.annualLoss+'</p></div>'
-    + '<p style="'+footer+'"><strong style="font-weight:700;color:#fff;">senza</strong> un ecosistema AI</p>'
-    + '</div>';
+    + '<p style="position:absolute;left:0;right:0;bottom:20px;text-align:center;font-family:Inter,sans-serif;font-size:14px;font-weight:300;color:#888;margin:0;">Analisi personalizzata per '+data.nome+' '+data.cognome+' \u00B7 '+data.date+'</p>';
 
-  // PAGE 3 — Profit
-  var p3 = '<div style="'+page+bg+'padding:48px 28px 24px;justify-content:center;gap:12px;">'
-    + '<div style="'+card+'background:#0ea85a;">'
-    +   '<p style="font-size:17px;font-weight:400;color:#e0e0e0;line-height:1.35;margin:0 0 10px;"><strong style="font-weight:700;color:#fff;">Profitto potenziale</strong><br>gi\u00E0 dal primo mese:</p>'
-    +   '<p style="font-size:42px;font-weight:900;color:#fff;line-height:1.1;margin:0;">'+data.firstProfit+'</p>'
+  // PAGE 2 — BLOCCO 1: red loss card (left) + green profit card (right), each with 3 stacked pills.
+  var col = 'flex:1;padding:40px 48px 32px;display:flex;flex-direction:column;align-items:stretch;';
+  var heroCard = 'border-radius:28px;padding:32px 28px;text-align:center;margin-bottom:18px;min-height:260px;display:flex;flex-direction:column;justify-content:center;';
+  var heroLabel = 'font-family:Inter,sans-serif;font-size:22px;font-weight:400;color:#fff;line-height:1.35;margin:0 0 14px;';
+  var heroBig  = 'font-family:\'Be Vietnam Pro\',sans-serif;font-size:54px;font-weight:900;line-height:1.0;margin:0;letter-spacing:-1px;';
+  var footerLbl = 'margin:auto 0 0;text-align:center;font-family:Inter,sans-serif;font-size:20px;color:#fff;padding-top:18px;';
+
+  var p2Inner =
+    '<div style="display:flex;width:100%;height:100%;">'
+    // LEFT COLUMN — LOSS
+    + '<div style="'+col+'">'
+    +   '<div style="'+heroCard+'background:#7c1a1a;">'
+    +     '<p style="'+heroLabel+'">La tua <strong style="font-weight:700;">azienda sta perdendo</strong><br>ogni giorno:</p>'
+    +     '<p style="'+heroBig+'color:#f76060;">'+data.dailyLossBig+' \uD83D\uDCC8</p>'
+    +   '</div>'
+    +   '<div style="'+pillRow+'"><p style="'+pillLabel+'">Perdita Giornaliera:</p><p style="'+pillValR+'">'+data.dailyLoss+'</p></div>'
+    +   '<div style="'+pillRow+'"><p style="'+pillLabel+'">Perdita Mensile:</p><p style="'+pillValR+'">'+data.monthlyLoss+'</p></div>'
+    +   '<div style="'+pillRow+'"><p style="'+pillLabel+'">Perdita Annuale:</p><p style="'+pillValR+'">'+data.annualLoss+'</p></div>'
+    +   '<p style="'+footerLbl+'"><strong style="font-weight:800;">senza</strong> un ecosistema AI</p>'
     + '</div>'
-    + '<div style="'+metricBox+'"><p style="'+labelS+'">Profitto Primo Mese:</p><p style="'+valGreen+'">'+data.profitMonth+'</p></div>'
-    + '<div style="'+metricBox+'"><p style="'+labelS+'">Profitto in 6 Mesi:</p><p style="'+valGreen+'">'+data.profit6m+'</p></div>'
-    + '<div style="'+metricBox+'"><p style="'+labelS+'">Profitto Annuale:</p><p style="'+valGreen+'">'+data.profitAnnual+'</p></div>'
-    + '<p style="'+footer+'">con il <strong style="font-weight:700;color:#fff;">sistema giusto</strong> installato</p>'
+    // RIGHT COLUMN — PROFIT
+    + '<div style="'+col+'">'
+    +   '<div style="'+heroCard+'background:#22c55e;">'
+    +     '<p style="'+heroLabel+'"><strong style="font-weight:700;">Profitto potenziale</strong><br>gi\u00E0 dal primo mese:</p>'
+    +     '<p style="'+heroBig+'color:#fff;">'+data.firstProfitBig+' \uD83D\uDCB8</p>'
+    +   '</div>'
+    +   '<div style="'+pillRow+'"><p style="'+pillLabel+'">Profitto Primo Mese:</p><p style="'+pillValG+'">'+data.profitMonth+'</p></div>'
+    +   '<div style="'+pillRow+'"><p style="'+pillLabel+'">Profitto in 6 Mesi:</p><p style="'+pillValG+'">'+data.profit6m+'</p></div>'
+    +   '<div style="'+pillRow+'"><p style="'+pillLabel+'">Profitto Annuale:</p><p style="'+pillValG+'">'+data.profitAnnual+'</p></div>'
+    +   '<p style="'+footerLbl+'">con il <strong style="font-weight:800;">sistema giusto</strong> installato</p>'
+    + '</div>'
     + '</div>';
 
-  // PAGE 4 — Breakdown
-  var d6Note = data.d6 === 'D' ? '<p style="font-size:12px;font-style:italic;color:#E8D9B0;text-align:center;padding:8px 12px;background:rgba(232,217,176,0.06);border-left:3px solid #E8D9B0;border-radius:4px;margin:0;">Non tracciare i lead \u00E8 gi\u00E0 di per s\u00E9 un segnale che stai perdendo pi\u00F9 di quanto pensi.</p>' : '';
-  var p4 = '<div style="'+page+bg+'padding:80px 28px 60px;justify-content:center;gap:24px;">'
-    + '<div style="'+barStyle+'"><p style="'+barLabel+'">Dispersione Operativa Giornaliera:</p><p style="'+bigBarVal+'">'+data.opLoss+'</p></div>'
-    + '<div style="'+barStyle+'"><p style="'+barLabel+'">Costo Operativo Mensile Recuperabile:</p><p style="'+bigBarVal+'">'+data.bundleCost+'</p></div>'
-    + '<div style="'+barStyle+'"><p style="'+barLabel+'">Lead Non Lavorati:</p><p style="'+bigBarVal+'">'+data.leadLoss+'</p></div>'
+  // PAGE 3 — BLOCCO 2: three large dark pills with stacked label + big coral value.
+  var bigPill  = 'background:#0a0a0a;border:1px solid rgba(255,255,255,0.04);border-radius:100px;padding:30px 56px;text-align:center;margin-bottom:34px;';
+  var bigLabel = 'font-family:Inter,sans-serif;font-size:22px;font-weight:700;color:#fff;margin:0 0 8px;';
+  var bigVal   = 'font-family:\'Be Vietnam Pro\',sans-serif;font-size:54px;font-weight:900;color:#f76060;margin:0;line-height:1.0;letter-spacing:-1px;';
+  var d6Note = data.d6 === 'D' ? '<p style="font-family:Inter,sans-serif;font-size:15px;font-style:italic;color:#E8D9B0;text-align:center;padding:12px 18px;background:rgba(232,217,176,0.06);border-left:3px solid #E8D9B0;border-radius:4px;margin:10px auto 0;max-width:800px;">Non tracciare i lead \u00E8 gi\u00E0 di per s\u00E9 un segnale che stai perdendo pi\u00F9 di quanto pensi.</p>' : '';
+  var p3Inner =
+    '<div style="padding:80px 90px 60px;">'
+    + '<div style="'+bigPill+'"><p style="'+bigLabel+'">Dispersione Operativa Giornaliera:</p><p style="'+bigVal+'">'+data.opLoss+'</p></div>'
+    + '<div style="'+bigPill+'"><p style="'+bigLabel+'">Costo Operativo Mensile Recuperabile:</p><p style="'+bigVal+'">'+data.bundleCost+'</p></div>'
+    + '<div style="'+bigPill+'"><p style="'+bigLabel+'">Lead Non Lavorati (mensile):</p><p style="'+bigVal+'">'+data.leadLoss+'</p></div>'
     + d6Note
     + '</div>';
 
-  // PAGE 5 — Bundle
-  var robotMap = { DOMINA: 'robot-domina.svg', SCALA: 'robot-scala.svg', MONETIZZA: 'robot-monetizza.svg' };
-  var robotSrc = 'assets/' + (robotMap[data.bundleName] || 'robot-cover.svg');
-  var p5 = '<div style="'+page+bg+'align-items:center;justify-content:center;text-align:center;padding:32px 32px 48px;">'
-    + '<p style="display:inline-block;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:10px 28px;font-size:14px;font-weight:400;color:#eee;margin-bottom:16px;">Ecco la <span style="color:#22c55e;font-weight:700;">soluzione</span> che fa al caso tuo:</p>'
-    + '<p style="font-size:16px;font-weight:400;color:#555;text-transform:uppercase;letter-spacing:4px;margin:0;">ECOSISTEMA AI \u2014</p>'
-    + '<p style="font-size:56px;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.0;margin:0 0 8px;letter-spacing:-1px;">'+data.bundleName+'</p>'
-    + '<img src="'+robotSrc+'" style="width:280px;height:auto;margin:0 auto;" crossorigin="anonymous">'
-    + '</div>';
+  // PAGE 4 — BLOCCO 3 bundle: full-bleed huge colored word, robot overlay on the right.
+  var disp = BUNDLE_DISPLAY[data.bundleName] || BUNDLE_DISPLAY.DOMINA;
+  var robotSrc = 'assets/' + disp.robot;
+  var wordGrad = BUNDLE_WORD_COLOR[disp.label] || BUNDLE_WORD_COLOR.CONTROLLI;
+  // Shorter words (SCALI) get bigger type; longer words (CONTROLLI, MONETIZZI) scale down to fit.
+  var wordLen = disp.label.length;
+  var wordSize = wordLen <= 5 ? 220 : (wordLen <= 7 ? 180 : 150);
+  var p4Inner =
+    '<div style="position:absolute;left:60px;right:60px;top:50%;transform:translateY(-50%);z-index:1;">'
+    +   '<p style="display:inline-block;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:999px;padding:10px 26px;font-family:Inter,sans-serif;font-size:18px;font-weight:400;color:#eee;margin:0 0 24px;">Ecco la <span style="color:#22c55e;font-weight:700;">soluzione</span> che fa al caso tuo:</p>'
+    +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:30px;font-weight:500;color:#777;text-transform:uppercase;letter-spacing:6px;margin:0 0 6px;">ECOSISTEMA AI &mdash;</p>'
+    +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:'+wordSize+'px;font-weight:900;text-transform:uppercase;line-height:0.92;margin:0;letter-spacing:-4px;white-space:nowrap;background:'+wordGrad+';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">'+disp.label+'</p>'
+    + '</div>'
+    + '<img src="'+robotSrc+'" crossorigin="anonymous" style="position:absolute;right:0;top:0;height:100%;width:auto;object-fit:cover;z-index:2;">';
 
-  return '<div style="width:'+W+'px;font-family:Be Vietnam Pro,sans-serif;">' + p1 + p2 + p3 + p4 + p5 + '</div>';
+  return _pdfPage('', p1Inner)
+    + _pdfPage('', p2Inner)
+    + _pdfPage('', p3Inner)
+    + _pdfPage('', p4Inner);
+}
+
+// Wait for all <img> inside the given element to finish loading (or error).
+function _waitForImages(el) {
+  var imgs = el.querySelectorAll('img');
+  var pending = [];
+  imgs.forEach(function(img) {
+    if (img.complete && img.naturalWidth > 0) return;
+    pending.push(new Promise(function(resolve) {
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    }));
+  });
+  return Promise.all(pending);
 }
 
 function downloadPDF() {
   var nome = document.getElementById('field-nome').value.trim();
   var cognome = document.getElementById('field-cognome').value.trim();
 
-  // Collect stored data from the TY page
+  // Hidden data spans hold the formatted strings with suffixes (e.g. "1.176€/giorno").
+  // The big "hero" numbers on page 2 should use the raw amount + a short suffix,
+  // so we strip "/giorno" from dailyLoss and reuse "+" for firstProfit.
+  var daily = document.getElementById('ty-daily-loss').textContent;
+  var first = document.getElementById('ty-first-profit').textContent;
   var data = {
     nome: nome,
     cognome: cognome,
     date: document.getElementById('ty-date').textContent,
-    dailyLoss: document.getElementById('ty-daily-loss').textContent,
+    dailyLoss: daily,
+    dailyLossBig: daily.replace('/giorno', '').trim(),
     monthlyLoss: document.getElementById('ty-monthly-loss').textContent + '/mese',
     annualLoss: document.getElementById('ty-annual-loss').textContent + '/anno',
-    firstProfit: document.getElementById('ty-first-profit').textContent,
-    profitMonth: document.getElementById('ty-first-profit').textContent.replace('+',''),
+    firstProfit: first,
+    firstProfitBig: first,
+    profitMonth: first.replace('+', '') + '/mese',
     profit6m: document.getElementById('ty-profit-6m').textContent,
     profitAnnual: document.getElementById('ty-profit-annual').textContent + '/anno',
     opLoss: document.getElementById('ty-op-loss').textContent,
@@ -1862,15 +2089,48 @@ function downloadPDF() {
     bundleMotivation: window._quizBundleMotivation || ''
   };
 
-  var htmlStr = buildPdfHtml(data);
+  // Mount the PDF source off-screen so images load in the real DOM before capture.
+  // Left -99999px works but html2canvas v1 sometimes fails on elements outside
+  // the viewport on some WebKit builds; opacity:0 + top:0 is a safer compromise.
+  var host = document.createElement('div');
+  host.style.cssText = 'position:fixed;left:0;top:0;width:'+PDF_W+'px;opacity:0;pointer-events:none;z-index:-1;';
+  host.innerHTML = buildPdfHtml(data);
+  document.body.appendChild(host);
 
-  html2pdf().set({
-    margin: 0,
-    filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
-    image: { type: 'jpeg', quality: 0.95 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#080000' },
-    jsPDF: { unit: 'mm', format: [142.88, 254], orientation: 'portrait' }
-  }).from(htmlStr, 'string').save();
+  var btn = document.querySelector('button[onclick="downloadPDF()"]');
+  var origLabel = btn ? btn.innerHTML : null;
+  if (btn) { btn.innerHTML = 'Preparo il PDF\u2026'; btn.disabled = true; }
+
+  var html2canvas = window.html2canvas;
+  var jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+
+  _waitForImages(host).then(function() {
+    console.log('[pdf] images loaded; jsPDF=', typeof jsPDF, 'html2canvas=', typeof html2canvas);
+    var pageEls = host.querySelectorAll('.pdf-page');
+    console.log('[pdf] page count', pageEls.length);
+    var pdf = new jsPDF({ unit: 'mm', format: [PDF_MM_W, PDF_MM_H], orientation: 'portrait' });
+    var chain = Promise.resolve();
+    pageEls.forEach(function(el, idx) {
+      chain = chain.then(function() {
+        console.log('[pdf] rendering page', idx+1);
+        return html2canvas(el, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#080000', logging: false });
+      }).then(function(canvas) {
+        var img = canvas.toDataURL('image/jpeg', 0.92);
+        if (idx > 0) pdf.addPage([PDF_MM_W, PDF_MM_H], 'portrait');
+        pdf.addImage(img, 'JPEG', 0, 0, PDF_MM_W, PDF_MM_H);
+      });
+    });
+    return chain.then(function() {
+      console.log('[pdf] saving');
+      pdf.save('Deep_Scan_' + nome + '_' + cognome + '.pdf');
+    });
+  }).catch(function(err) {
+    console.error('PDF generation failed:', err);
+    alert('Si \u00E8 verificato un errore durante la generazione del PDF. Riprova.');
+  }).then(function() {
+    if (host.parentNode) document.body.removeChild(host);
+    if (btn) { btn.innerHTML = origLabel; btn.disabled = false; }
+  });
 }
 
 function showCalendar() {
@@ -1914,6 +2174,20 @@ function showCalendar() {
 
 // === INIT ===
 updateNextButton();
+
+// Wire configurable URLs (legal links + booking iframe) from the constants above.
+(function() {
+  ['legal-privacy-quiz', 'legal-privacy-footer'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.href = PRIVACY_URL;
+  });
+  ['legal-terms-quiz', 'legal-terms-footer'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.href = TERMS_URL;
+  });
+  var calIframe = document.querySelector('#calendar-section iframe');
+  if (calIframe && BOOKING_URL) calIframe.src = BOOKING_URL;
+})();
 </script>
 <script src="https://info.infrastruttureai.io/js/form_embed.js" type="text/javascript"></script>
 </body>
