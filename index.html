@@ -643,7 +643,8 @@ a:hover { color: #fff; }
   overflow: hidden;
 }
 .pdf-bg-dark {
-  background: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
+  background-color: #0a0000;
+  background-image: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
 }
 /* Page 1 — Cover */
 .pdf-page-cover {
@@ -761,7 +762,8 @@ a:hover { color: #fff; }
 }
 /* Page 5 — Bundle */
 .pdf-page-bundle {
-  background: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
+  background-color: #0a0000;
+  background-image: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -1271,8 +1273,10 @@ a:hover { color: #fff; }
 
   <!-- PAGE 1 — Cover -->
   <div class="pdf-page pdf-bg-dark pdf-page-cover">
+    <img src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/6920f1775408c6ac15161f6f.svg" alt="Infrastrutture AI" style="width:80px;height:80px;margin-bottom:32px;border-radius:12px;" crossorigin="anonymous">
     <h1 class="pdf-cover-title">DEEP SCAN<br><span class="red">AZIENDALE AI</span></h1>
-    <p class="pdf-cover-sub">Analisi personalizzata per <span id="pdf-name"></span> &middot; <span id="pdf-date"></span></p>
+    <p class="pdf-cover-sub">Analisi personalizzata per <span id="pdf-name"></span></p>
+    <p class="pdf-cover-sub"><span id="pdf-date"></span></p>
   </div>
 
   <!-- PAGE 2 — Loss numbers -->
@@ -1669,7 +1673,7 @@ function downloadPDF() {
   var nome = document.getElementById('field-nome').value.trim();
   var cognome = document.getElementById('field-cognome').value.trim();
   var wrapper = document.getElementById('pdf-wrapper');
-  var pages = document.querySelectorAll('#pdf-content .pdf-page');
+  var element = document.getElementById('pdf-content');
 
   // Make wrapper visible for capture
   wrapper.style.height = 'auto';
@@ -1679,30 +1683,21 @@ function downloadPDF() {
   // Show the calendar
   showCalendar();
 
-  // Render each page separately into one PDF
+  // Wait for repaint then generate
   requestAnimationFrame(function() {
     setTimeout(function() {
-      var worker = html2pdf().set({
+      html2pdf().set({
         margin: 0,
         filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 0.95 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: '#000000' },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      });
-
-      // Chain: render first page, then add remaining pages
-      var chain = worker.from(pages[0]).toContainer().toCanvas().toPdf();
-      for (var i = 1; i < pages.length; i++) {
-        chain = chain.get('pdf').then(function(idx) {
-          return function(pdf) { pdf.addPage(); };
-        }(i)).from(pages[i]).toContainer().toCanvas().toPdf();
-      }
-      chain.save().then(function() {
+      }).from(element).save().then(function() {
         wrapper.style.height = '0';
         wrapper.style.opacity = '0';
         wrapper.style.zIndex = '-9999';
       });
-    }, 200);
+    }, 300);
   });
 }
 
