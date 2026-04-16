@@ -675,9 +675,6 @@ a:hover { color: #fff; }
           <li class="option-item"><input type="radio" name="d1" value="D"><span>Oltre 5M&euro;</span></li>
         </ul>
       </div>
-      <div class="nav-buttons">
-        <button class="btn-next solo" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
-      </div>
     </div>
 
     <!-- STEP 2 — D2: Operational dependency -->
@@ -697,8 +694,7 @@ a:hover { color: #fff; }
         </ul>
       </div>
       <div class="nav-buttons">
-        <button class="btn-prev" onclick="prevStep()">&larr; PRECEDENTE</button>
-        <button class="btn-next" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
+        <button class="btn-prev" onclick="prevStep()" style="border-radius:8px;">&larr; PRECEDENTE</button>
       </div>
     </div>
 
@@ -719,8 +715,7 @@ a:hover { color: #fff; }
         </ul>
       </div>
       <div class="nav-buttons">
-        <button class="btn-prev" onclick="prevStep()">&larr; PRECEDENTE</button>
-        <button class="btn-next" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
+        <button class="btn-prev" onclick="prevStep()" style="border-radius:8px;">&larr; PRECEDENTE</button>
       </div>
     </div>
 
@@ -766,8 +761,7 @@ a:hover { color: #fff; }
         </ul>
       </div>
       <div class="nav-buttons">
-        <button class="btn-prev" onclick="prevStep()">&larr; PRECEDENTE</button>
-        <button class="btn-next" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
+        <button class="btn-prev" onclick="prevStep()" style="border-radius:8px;">&larr; PRECEDENTE</button>
       </div>
     </div>
 
@@ -788,8 +782,7 @@ a:hover { color: #fff; }
         </ul>
       </div>
       <div class="nav-buttons">
-        <button class="btn-prev" onclick="prevStep()">&larr; PRECEDENTE</button>
-        <button class="btn-next" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
+        <button class="btn-prev" onclick="prevStep()" style="border-radius:8px;">&larr; PRECEDENTE</button>
       </div>
     </div>
 
@@ -810,8 +803,7 @@ a:hover { color: #fff; }
         </ul>
       </div>
       <div class="nav-buttons">
-        <button class="btn-prev" onclick="prevStep()">&larr; PRECEDENTE</button>
-        <button class="btn-next" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
+        <button class="btn-prev" onclick="prevStep()" style="border-radius:8px;">&larr; PRECEDENTE</button>
       </div>
     </div>
 
@@ -832,8 +824,7 @@ a:hover { color: #fff; }
         </ul>
       </div>
       <div class="nav-buttons">
-        <button class="btn-prev" onclick="prevStep()">&larr; PRECEDENTE</button>
-        <button class="btn-next" disabled onclick="nextStep()">SUCCESSIVA &rarr;</button>
+        <button class="btn-prev" onclick="prevStep()" style="border-radius:8px;">&larr; PRECEDENTE</button>
       </div>
     </div>
 
@@ -1166,9 +1157,13 @@ function updateNextButton() {
   btn.disabled = !selected;
 }
 
-// Listen for radio/checkbox changes
+// Listen for radio/checkbox changes — auto-advance on radio select
 document.addEventListener('change', function(e) {
-  if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+  if (e.target.type === 'radio') {
+    // Auto-advance after a short delay so the user sees their selection
+    setTimeout(function() { nextStep(); }, 350);
+  }
+  if (e.target.type === 'checkbox') {
     updateNextButton();
   }
 });
