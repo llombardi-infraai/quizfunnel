@@ -17,6 +17,7 @@
 <style>
 /* === RESET & BASE === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --red: #cc1010; --red2: #ff4444; --pad: clamp(20px, 5vw, 80px); }
 html { scroll-behavior: smooth; }
 body {
   font-family: 'Inter', sans-serif;
@@ -472,6 +473,39 @@ a:hover { color: #fff; }
   margin-top: 10px;
 }
 
+/* Calendar section */
+.calendar-section {
+  display: none;
+}
+.calendar-section.visible {
+  display: block;
+}
+.calendar-wrapper {
+  background: #1A1A1A;
+  border-radius: 16px;
+  padding: 36px 32px;
+  text-align: center;
+}
+.calendar-title {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 10px;
+}
+.calendar-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: #ccc;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 24px auto;
+}
+.calendar-embed {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
 /* Block 3 — Bundle */
 .bundle-section {
   background: #1A1A1A;
@@ -535,53 +569,31 @@ a:hover { color: #fff; }
 }
 .btn-cta:hover { background: #cc0000; color: #fff; }
 
-/* Block 5 — Case studies */
-.case-studies {
-  padding: 40px 16px;
-}
-.case-studies h2 {
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 32px;
-  color: #FFFFFF;
-}
-.case-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-}
-.case-card {
-  background: #1A1A1A;
-  border-radius: 12px;
-  padding: 28px 24px;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-.case-card h3 {
-  font-size: 15px;
-  font-weight: 600;
-  color: #E8D9B0;
-  margin-bottom: 12px;
-}
-.case-numbers {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 14px;
-}
-.case-before, .case-after {
-  font-size: 13px;
-  font-weight: 400;
-}
-.case-before { color: #e82e2e; }
-.case-after { color: #22c55e; }
-.case-quote {
-  font-size: 13px;
-  font-style: italic;
-  color: #aaa;
-  line-height: 1.5;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding-top: 12px;
-}
+/* Block 5 — Testimonials slider */
+#tst{font-family:'Be Vietnam Pro',sans-serif;width:100%;background:transparent;color:#fff;overflow:hidden}
+.tv{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s cubic-bezier(.16,1,.3,1)}
+.tv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}
+#tst-header{padding:48px var(--pad) 32px;text-align:center;position:relative}
+.tst-h{font-size:clamp(28px,4vw,62px);font-weight:900;line-height:1.05;letter-spacing:-2px;max-width:800px;margin:0 auto;color:#fff}
+.tst-h .red{color:var(--red)}
+#tst-slider{position:relative;overflow:hidden;padding:0 var(--pad)}
+.tst-track{display:flex;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.tst-slide{min-width:100%;position:relative;padding:0 8px}
+.tst-slide img{width:100%;display:block;object-fit:contain;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.3)}
+.tst-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s,border-color .3s,box-shadow .3s}
+.tst-arrow:hover{background:var(--red);border-color:var(--red)}
+.tst-arrow:hover svg{stroke:#fff}
+.tst-arrow svg{width:16px;height:16px;stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+.tst-prev{left:calc(var(--pad) + 12px)}
+.tst-next{right:calc(var(--pad) + 12px)}
+.tst-dots{display:flex;align-items:center;justify-content:center;gap:8px;padding:20px 0 8px}
+.tst-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:background .3s,transform .3s}
+.tst-dot.active{background:var(--red);transform:scale(1.3)}
+#tst-bottom{padding:28px var(--pad) 40px;text-align:center}
+.tst-common{font-size:clamp(15px,1.5vw,19px);font-weight:600;color:#e0c0c0;line-height:1.8;max-width:620px;margin:0 auto 24px}
+.tst-cta-line{font-size:clamp(20px,2.5vw,34px);font-weight:900;line-height:1.1;letter-spacing:-.5px;max-width:700px;margin:0 auto;color:#fff}
+.tst-cta-line .red{color:var(--red);text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:4px}
 
 /* Block 6 — Positioning */
 .positioning-section {
@@ -605,106 +617,198 @@ a:hover { color: #fff; }
   margin: 0 auto;
 }
 
-/* === PDF CONTENT (hidden, styled for A4) === */
-#pdf-content {
-  width: 794px;
-  font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
-  background: #000000;
-  color: #FFFFFF;
-  padding: 40px;
-}
+/* === PDF WRAPPER === */
 #pdf-wrapper {
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 0; top: 0;
   z-index: -9999;
   opacity: 0;
   pointer-events: none;
   overflow: hidden;
   height: 0;
 }
-.pdf-header {
-  text-align: center;
-  border-bottom: 2px solid #cc0000;
-  padding-bottom: 20px;
-  margin-bottom: 32px;
+#pdf-content {
+  width: 540px;
+  font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+  color: #FFFFFF;
 }
-.pdf-header h1 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #E8D9B0;
-  letter-spacing: 2px;
+/* Shared page base */
+.pdf-page {
+  width: 540px;
+  height: 960px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+}
+.pdf-bg-dark {
+  background: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
+}
+/* Page 1 — Cover */
+.pdf-page-cover {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.pdf-cover-title {
+  font-size: 52px;
+  font-weight: 900;
+  color: #FFFFFF;
   text-transform: uppercase;
+  line-height: 1.05;
+  letter-spacing: 2px;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+.pdf-cover-title .red { color: #cc0000; }
+.pdf-cover-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: #ccc;
+  margin-top: 16px;
+}
+/* Pages 2 & 3 — Loss / Profit */
+.pdf-page-loss, .pdf-page-profit {
+  justify-content: center;
+  gap: 14px;
+}
+.pdf-hero-card {
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+}
+.pdf-hero-card.loss {
+  background: rgba(140, 0, 0, 0.55);
+  border: 1px solid rgba(255, 80, 80, 0.25);
+}
+.pdf-hero-card.profit {
+  background: #0fad5c;
+}
+.pdf-hero-label {
+  font-size: 16px;
+  font-weight: 400;
+  color: #eee;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.pdf-hero-label strong { font-weight: 700; color: #fff; }
+.pdf-hero-number {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.pdf-hero-card.loss .pdf-hero-number { color: #ff7b7b; }
+.pdf-hero-card.profit .pdf-hero-number { color: #FFFFFF; }
+/* Metric boxes (stacked) */
+.pdf-metric-box {
+  background: #1a1a1a;
+  border-radius: 14px;
+  padding: 16px 20px;
+  text-align: center;
+}
+.pdf-metric-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ccc;
+  margin-bottom: 4px;
+}
+.pdf-metric-value {
+  font-size: 26px;
+  font-weight: 800;
+}
+.pdf-metric-box.red .pdf-metric-value { color: #ff7b7b; }
+.pdf-metric-box.green .pdf-metric-value { color: #22c55e; }
+.pdf-page-footer {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ccc;
+  margin-top: 8px;
+  padding-top: 4px;
+}
+.pdf-page-footer strong { font-weight: 700; color: #fff; }
+/* Page 4 — Breakdown */
+.pdf-page-breakdown {
+  justify-content: center;
+  gap: 20px;
+}
+.pdf-breakdown-bar {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 24px 28px;
+  text-align: center;
+}
+.pdf-breakdown-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ddd;
   margin-bottom: 6px;
 }
-.pdf-header p {
-  font-size: 13px;
-  color: #ccc;
+.pdf-breakdown-value {
+  font-size: 34px;
+  font-weight: 900;
+  color: #ff7b7b;
 }
-.pdf-cards {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-.pdf-card {
-  flex: 1;
-  border-radius: 12px;
-  padding: 24px 20px;
-  text-align: center;
-}
-.pdf-card.loss {
-  background: rgba(183, 0, 0, 0.35);
-  border: 1px solid rgba(232, 46, 46, 0.3);
-}
-.pdf-card.profit {
-  background: rgba(21, 128, 61, 0.2);
-  border: 1px solid rgba(21, 128, 61, 0.3);
-}
-.pdf-card-label { font-size: 12px; color: #ccc; margin-bottom: 8px; }
-.pdf-card-number { font-size: 32px; font-weight: 700; margin-bottom: 6px; }
-.pdf-card.loss .pdf-card-number { color: #e82e2e; }
-.pdf-card.profit .pdf-card-number { color: #22c55e; }
-.pdf-card-sub { font-size: 11px; color: #aaa; }
-.pdf-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 24px;
-}
-.pdf-table th, .pdf-table td {
-  padding: 10px 12px;
-  font-size: 13px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.pdf-table th { color: #8c8c8c; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-.pdf-table td:last-child { text-align: right; font-weight: 600; color: #e82e2e; }
-.pdf-note {
+.pdf-d6-note {
   font-size: 12px;
   font-style: italic;
   color: #E8D9B0;
-  padding: 10px 12px;
+  text-align: center;
+  padding: 8px 12px;
   background: rgba(232,217,176,0.06);
   border-left: 3px solid #E8D9B0;
   border-radius: 4px;
-  margin-bottom: 24px;
 }
-.pdf-bundle {
-  background: #1A1A1A;
-  border-radius: 12px;
-  padding: 24px 20px;
-  margin-bottom: 24px;
-}
-.pdf-bundle h2 { font-size: 13px; color: #ccc; margin-bottom: 8px; font-weight: 300; }
-.pdf-bundle h3 { font-size: 18px; color: #E8D9B0; margin-bottom: 12px; font-weight: 700; }
-.pdf-bundle p { font-size: 12px; color: #ddd; line-height: 1.6; }
-.pdf-cta {
+/* Page 5 — Bundle */
+.pdf-page-bundle {
+  background: radial-gradient(ellipse at 50% 85%, #6a0000 0%, #2d0000 35%, #000000 75%);
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 24px 20px;
-  border: 1px solid rgba(232,217,176,0.2);
-  border-radius: 12px;
 }
-.pdf-cta h2 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-.pdf-cta p { font-size: 12px; color: #ccc; line-height: 1.5; }
+.pdf-bundle-pill {
+  display: inline-block;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 8px 24px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #eee;
+  margin-bottom: 24px;
+}
+.pdf-bundle-pill em {
+  font-style: normal;
+  color: #22c55e;
+  font-weight: 700;
+}
+.pdf-bundle-prefix {
+  font-size: 22px;
+  font-weight: 400;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 4px;
+}
+.pdf-bundle-name-big {
+  font-size: 72px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.0;
+  margin-bottom: 28px;
+  letter-spacing: -1px;
+}
+.pdf-bundle-text {
+  font-size: 13px;
+  font-weight: 300;
+  color: #ccc;
+  line-height: 1.7;
+  max-width: 440px;
+  text-align: center;
+}
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
@@ -712,8 +816,16 @@ a:hover { color: #fff; }
   .step-card { padding: 24px 20px; }
   .hero-cards { grid-template-columns: 1fr; }
   .hero-card-number { font-size: 34px; }
-  .case-grid { grid-template-columns: 1fr; }
   .bundle-section, .positioning-section { padding: 28px 20px; }
+}
+@media (max-width: 600px) {
+  #tst-header { padding: 28px var(--pad) 20px; }
+  #tst-bottom { padding: 20px var(--pad) 28px; }
+  .tst-arrow { width: 36px; height: 36px; }
+  .tst-arrow svg { width: 13px; height: 13px; }
+  .tst-prev { left: calc(var(--pad) - 4px); }
+  .tst-next { right: calc(var(--pad) - 4px); }
+  .tst-slide img { border-radius: 12px; }
 }
 @media (max-width: 480px) {
   .quiz-container { padding: 24px 16px; border-radius: 14px; }
@@ -1056,8 +1168,21 @@ a:hover { color: #fff; }
 
   <!-- Download button -->
   <div class="download-section">
-    <button class="btn-download" onclick="downloadPDF()">SCARICA QUI IL TUO REPORT</button>
+    <button class="btn-download" id="btn-download" onclick="downloadPDF()">SCARICA QUI IL TUO REPORT</button>
     <p class="download-sub">L&rsquo;hai ricevuto anche via email (controlla anche lo spam)</p>
+  </div>
+
+  <!-- Calendar embed (hidden until PDF download) -->
+  <div class="calendar-section" id="calendar-section">
+    <div class="ty-block">
+      <div class="calendar-wrapper">
+        <h2 class="calendar-title">Prenota la tua call gratuita</h2>
+        <p class="calendar-sub">Scegli il giorno e l&rsquo;orario che preferisci. In 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda.</p>
+        <div class="calendar-embed">
+          <iframe src="https://info.infrastruttureai.io/widget/booking/uNuq13baAP9SVs5b1jv6" style="width: 100%; min-height: 700px; border: none; overflow: hidden;" scrolling="no" id="NioVLcICMo8ZEN1ePKfC_1776343249641"></iframe>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Block 3 — Recommended bundle -->
@@ -1076,38 +1201,52 @@ a:hover { color: #fff; }
     <a class="btn-cta" id="cta-link-1" href="#" target="_blank">Prenota la tua call gratuita</a>
   </div>
 
-  <!-- Block 5 — Case studies (PLACEHOLDER) -->
-  <!-- CASE STUDIES: Replace with real data -->
-  <div class="ty-block case-studies">
-    <h2>Casi studio reali</h2>
-    <div class="case-grid">
-      <div class="case-card">
-        <h3>Studio Legale Associato</h3>
-        <div class="case-numbers">
-          <span class="case-before">Prima: 45 lead persi/mese</span>
-          <span class="case-after">Dopo: 3 lead persi/mese</span>
+  <!-- Block 5 — Testimonials slider -->
+  <div id="tst">
+    <div id="tst-header">
+      <h2 class="tst-h tv">Loro lo hanno gi&agrave; fatto:</h2>
+    </div>
+
+    <div id="tst-slider">
+      <div class="tst-track" id="tstTrack">
+
+        <div class="tst-slide">
+          <picture>
+            <source media="(max-width:600px)" srcset="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/69df632c2b7a6ecd79bb9423.png">
+            <img src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/69df72c3190683601a554cea.png" alt="Testimonianza 1">
+          </picture>
         </div>
-        <p class="case-quote">&ldquo;In 60 giorni abbiamo automatizzato tutto il follow-up. Ora nessun contatto viene dimenticato.&rdquo;</p>
-      </div>
-      <div class="case-card">
-        <h3>Agenzia Immobiliare</h3>
-        <div class="case-numbers">
-          <span class="case-before">Prima: 1.200&euro;/mese in gestione manuale</span>
-          <span class="case-after">Dopo: 0&euro; &mdash; tutto automatizzato</span>
+
+        <div class="tst-slide">
+          <picture>
+            <source media="(max-width:600px)" srcset="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/69dcbf9008838f4e1fe32fa5.png">
+            <img src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/69dcbef0695d5a0292199192.png" alt="Testimonianza 2">
+          </picture>
         </div>
-        <p class="case-quote">&ldquo;Il sistema lavora 24/7. Io finalmente mi occupo solo di strategia.&rdquo;</p>
-      </div>
-      <div class="case-card">
-        <h3>E-commerce Fashion</h3>
-        <div class="case-numbers">
-          <span class="case-before">Prima: +18.000&euro;/mese persi</span>
-          <span class="case-after">Dopo: +12.000&euro;/mese recuperati</span>
+
+        <div class="tst-slide">
+          <picture>
+            <source media="(max-width:600px)" srcset="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/69df632c190683601a4fb187.png">
+            <img src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/69df72c3109243d2ccf7d457.png" alt="Testimonianza 3">
+          </picture>
         </div>
-        <p class="case-quote">&ldquo;L&rsquo;AI ha trasformato i nostri lead freddi in clienti paganti in automatico.&rdquo;</p>
+
       </div>
+
+      <button class="tst-arrow tst-prev" id="tstPrev" aria-label="Precedente">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="tst-arrow tst-next" id="tstNext" aria-label="Successivo">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="tst-dots" id="tstDots">
+      <div class="tst-dot active" data-i="0"></div>
+      <div class="tst-dot" data-i="1"></div>
+      <div class="tst-dot" data-i="2"></div>
     </div>
   </div>
-  <!-- END CASE STUDIES -->
 
   <!-- Block 6 — Positioning / USP (PLACEHOLDER) -->
   <!-- POSITIONING: Replace with real copy -->
@@ -1131,42 +1270,80 @@ a:hover { color: #fff; }
 <!-- ==================== HIDDEN PDF CONTENT ==================== -->
 <div id="pdf-wrapper">
 <div id="pdf-content">
-  <div class="pdf-header">
-    <h1>DEEP SCAN AZIENDALE AI</h1>
-    <p>Analisi personalizzata per <span id="pdf-name"></span> &middot; <span id="pdf-date"></span></p>
+
+  <!-- PAGE 1 — Cover -->
+  <div class="pdf-page pdf-bg-dark pdf-page-cover">
+    <h1 class="pdf-cover-title">DEEP SCAN<br><span class="red">AZIENDALE AI</span></h1>
+    <p class="pdf-cover-sub">Analisi personalizzata per <span id="pdf-name"></span> &middot; <span id="pdf-date"></span></p>
   </div>
-  <div class="pdf-cards">
-    <div class="pdf-card loss">
-      <p class="pdf-card-label">La tua azienda sta perdendo ogni giorno:</p>
-      <p class="pdf-card-number" id="pdf-daily-loss"></p>
-      <p class="pdf-card-sub"><span id="pdf-monthly-loss"></span>/mese &middot; <span id="pdf-annual-loss"></span>/anno</p>
+
+  <!-- PAGE 2 — Loss numbers -->
+  <div class="pdf-page pdf-bg-dark pdf-page-loss">
+    <div class="pdf-hero-card loss">
+      <p class="pdf-hero-label">La tua <strong>azienda sta perdendo</strong><br>ogni giorno:</p>
+      <p class="pdf-hero-number" id="pdf-daily-loss"></p>
     </div>
-    <div class="pdf-card profit">
-      <p class="pdf-card-label">Profitto potenziale gi&agrave; dal primo mese:</p>
-      <p class="pdf-card-number" id="pdf-first-profit"></p>
-      <p class="pdf-card-sub">+<span id="pdf-profit-6m"></span> in 6 mesi &middot; +<span id="pdf-profit-annual"></span>/anno</p>
+    <div class="pdf-metric-box red">
+      <p class="pdf-metric-label">Perdita Giornaliera:</p>
+      <p class="pdf-metric-value" id="pdf-metric-daily"></p>
     </div>
+    <div class="pdf-metric-box red">
+      <p class="pdf-metric-label">Perdita Mensile:</p>
+      <p class="pdf-metric-value" id="pdf-monthly-loss"></p>
+    </div>
+    <div class="pdf-metric-box red">
+      <p class="pdf-metric-label">Perdita Annuale:</p>
+      <p class="pdf-metric-value" id="pdf-annual-loss"></p>
+    </div>
+    <p class="pdf-page-footer"><strong>senza</strong> un ecosistema AI</p>
   </div>
-  <table class="pdf-table">
-    <thead>
-      <tr><th>Voce</th><th style="text-align:right">Importo</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Dispersione operativa giornaliera</td><td id="pdf-op-loss"></td></tr>
-      <tr><td>Costo operativo mensile recuperabile</td><td id="pdf-bundle-cost"></td></tr>
-      <tr><td>Lead non lavorati (mensile)</td><td id="pdf-lead-loss"></td></tr>
-    </tbody>
-  </table>
-  <div class="pdf-note" id="pdf-d6-note" style="display:none;">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
-  <div class="pdf-bundle">
-    <h2>Ecco la soluzione che fa al caso tuo:</h2>
-    <h3 id="pdf-bundle-name"></h3>
-    <p id="pdf-bundle-motivation"></p>
+
+  <!-- PAGE 3 — Profit numbers -->
+  <div class="pdf-page pdf-bg-dark pdf-page-profit">
+    <div class="pdf-hero-card profit">
+      <p class="pdf-hero-label"><strong>Profitto potenziale</strong><br>gi&agrave; dal primo mese:</p>
+      <p class="pdf-hero-number" id="pdf-first-profit"></p>
+    </div>
+    <div class="pdf-metric-box green">
+      <p class="pdf-metric-label">Profitto Primo Mese:</p>
+      <p class="pdf-metric-value" id="pdf-metric-profit1"></p>
+    </div>
+    <div class="pdf-metric-box green">
+      <p class="pdf-metric-label">Profitto in 6 Mesi:</p>
+      <p class="pdf-metric-value" id="pdf-profit-6m"></p>
+    </div>
+    <div class="pdf-metric-box green">
+      <p class="pdf-metric-label">Profitto Annuale:</p>
+      <p class="pdf-metric-value" id="pdf-profit-annual"></p>
+    </div>
+    <p class="pdf-page-footer">con il <strong>sistema giusto</strong> installato</p>
   </div>
-  <div class="pdf-cta">
-    <h2>Questi numeri sono reali. La soluzione anche.</h2>
-    <p>Prenota adesso una call con il nostro team: in 30 minuti ti mostriamo esattamente come installiamo il sistema nella tua azienda e quanto tempo ci vuole per vedere i primi risultati.</p>
+
+  <!-- PAGE 4 — Breakdown -->
+  <div class="pdf-page pdf-bg-dark pdf-page-breakdown">
+    <div class="pdf-breakdown-bar">
+      <p class="pdf-breakdown-label">Dispersione Operativa Giornaliera:</p>
+      <p class="pdf-breakdown-value" id="pdf-op-loss"></p>
+    </div>
+    <div class="pdf-breakdown-bar">
+      <p class="pdf-breakdown-label">Costo Operativo Mensile Recuperabile:</p>
+      <p class="pdf-breakdown-value" id="pdf-bundle-cost"></p>
+    </div>
+    <div class="pdf-breakdown-bar">
+      <p class="pdf-breakdown-label">Lead Non Lavorati:</p>
+      <p class="pdf-breakdown-value" id="pdf-lead-loss"></p>
+    </div>
+    <div class="pdf-d6-note" id="pdf-d6-note" style="display:none;">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
   </div>
+
+  <!-- PAGE 5 — Bundle -->
+  <div class="pdf-page pdf-page-bundle">
+    <p class="pdf-bundle-pill">Ecco la <em>soluzione</em> che fa al caso tuo:</p>
+    <p class="pdf-bundle-prefix">ECOSISTEMA AI &mdash;</p>
+    <h2 class="pdf-bundle-name-big" id="pdf-bundle-name"></h2>
+    <p class="pdf-bundle-text" id="pdf-bundle-motivation"></p>
+  </div>
+
 </div>
 </div>
 
@@ -1429,19 +1606,25 @@ function submitQuiz() {
   // === POPULATE PDF ===
   document.getElementById('pdf-name').textContent = nome + ' ' + cognome;
   document.getElementById('pdf-date').textContent = dateStr;
+  // Page 2 — hero cards
   document.getElementById('pdf-daily-loss').textContent = formatEuro(totalDailyLoss) + '/giorno';
-  document.getElementById('pdf-monthly-loss').textContent = formatEuro(monthlyLoss);
-  document.getElementById('pdf-annual-loss').textContent = formatEuro(annualLoss);
   document.getElementById('pdf-first-profit').textContent = '+' + formatEuro(firstMonthProfit);
+  // Page 2 — metrics grid
+  document.getElementById('pdf-metric-daily').textContent = formatEuro(totalDailyLoss) + '/giorno';
+  document.getElementById('pdf-metric-profit1').textContent = formatEuro(firstMonthProfit) + '/mese';
+  document.getElementById('pdf-monthly-loss').textContent = formatEuro(monthlyLoss) + '/mese';
   document.getElementById('pdf-profit-6m').textContent = formatEuro(profit6Months);
-  document.getElementById('pdf-profit-annual').textContent = formatEuro(profitAnnual);
+  document.getElementById('pdf-annual-loss').textContent = formatEuro(annualLoss) + '/anno';
+  document.getElementById('pdf-profit-annual').textContent = formatEuro(profitAnnual) + '/anno';
+  // Page 3 — breakdown bars
   document.getElementById('pdf-op-loss').textContent = formatEuro(operationalDailyLoss) + '/giorno';
   document.getElementById('pdf-bundle-cost').textContent = formatEuro(bundleCost) + '/mese';
   document.getElementById('pdf-lead-loss').textContent = formatEuro(monthlyLeadLoss) + '/mese';
   if (d6 === 'D') {
     document.getElementById('pdf-d6-note').style.display = 'block';
   }
-  document.getElementById('pdf-bundle-name').textContent = 'ECOSISTEMA AI - ' + bundle;
+  // Page 4 — bundle (just the name, not the prefix)
+  document.getElementById('pdf-bundle-name').textContent = bundle.toUpperCase();
   document.getElementById('pdf-bundle-motivation').textContent = BUNDLE_MOTIVATIONS[bundle];
 
   // === SHOW TY, HIDE QUIZ ===
@@ -1497,6 +1680,14 @@ function downloadPDF() {
   wrapper.style.opacity = '1';
   wrapper.style.zIndex = '-1';
 
+  // Show the calendar immediately
+  var calSection = document.getElementById('calendar-section');
+  calSection.classList.add('visible');
+  // Scroll to the calendar
+  setTimeout(function() {
+    calSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
+
   // Wait for browser to repaint with the element visible
   requestAnimationFrame(function() {
     setTimeout(function() {
@@ -1504,8 +1695,9 @@ function downloadPDF() {
         margin: 0,
         filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#000000' },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#000000', windowWidth: 540 },
+        jsPDF: { unit: 'px', format: [540, 960], orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: '.pdf-page' }
       };
 
       html2pdf().set(opt).from(element).save().then(function() {
@@ -1518,8 +1710,40 @@ function downloadPDF() {
   });
 }
 
+// === TESTIMONIALS SLIDER ===
+(function(){
+  var track=document.getElementById('tstTrack');
+  var dots=document.querySelectorAll('.tst-dot');
+  var cur=0;var total=3;var timer;
+
+  function go(n){
+    cur=(n+total)%total;
+    track.style.transform='translateX(-'+cur*100+'%)';
+    dots.forEach(function(d){d.classList.remove('active')});
+    dots[cur].classList.add('active');
+  }
+
+  function autoplay(){timer=setInterval(function(){go(cur+1)},4000)}
+
+  document.getElementById('tstNext').addEventListener('click',function(){clearInterval(timer);go(cur+1);autoplay()});
+  document.getElementById('tstPrev').addEventListener('click',function(){clearInterval(timer);go(cur-1);autoplay()});
+  dots.forEach(function(d){
+    d.addEventListener('click',function(){
+      clearInterval(timer);go(parseInt(d.dataset.i));autoplay();
+    });
+  });
+
+  var io=new IntersectionObserver(function(e){
+    e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}});
+  },{threshold:.1});
+  document.querySelectorAll('.tv').forEach(function(el){io.observe(el)});
+
+  autoplay();
+})();
+
 // === INIT ===
 updateNextButton();
 </script>
+<script src="https://info.infrastruttureai.io/js/form_embed.js" type="text/javascript"></script>
 </body>
 </html>
