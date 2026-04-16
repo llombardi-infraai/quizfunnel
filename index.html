@@ -345,6 +345,83 @@ a:hover { color: #fff; }
 /* Hidden data spans */
 .ty-hidden-data { display: none; }
 
+/* --- Report cards --- */
+.ty-report {
+  max-width: 700px;
+  margin: 32px auto;
+  padding: 0;
+}
+.ty-report-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.ty-rpt-card {
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.ty-rpt-card.loss {
+  background: rgba(183, 0, 0, 0.35);
+  border: 1px solid rgba(232, 46, 46, 0.3);
+}
+.ty-rpt-card.profit {
+  background: rgba(21, 128, 61, 0.25);
+  border: 1px solid rgba(21, 128, 61, 0.3);
+}
+.ty-rpt-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #ccc;
+  margin-bottom: 8px;
+}
+.ty-rpt-number {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+.ty-rpt-card.loss .ty-rpt-number { color: #e82e2e; }
+.ty-rpt-card.profit .ty-rpt-number { color: #22c55e; }
+.ty-rpt-sub {
+  font-size: 12px;
+  color: #999;
+}
+.ty-breakdown {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+.ty-breakdown td {
+  padding: 12px 14px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: #ccc;
+}
+.ty-breakdown td:last-child {
+  text-align: right;
+  font-weight: 700;
+  color: #e82e2e;
+}
+.ty-rpt-d6 {
+  font-size: 12px;
+  font-style: italic;
+  color: #E8D9B0;
+  padding: 8px 14px;
+  background: rgba(232,217,176,0.06);
+  border-left: 3px solid #E8D9B0;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  display: none;
+}
+.ty-rpt-d6.visible { display: block; }
+@media (max-width: 600px) {
+  .ty-report-cards { grid-template-columns: 1fr; }
+  .ty-rpt-number { font-size: 28px; }
+}
+
 /* --- Section 1: Hero Complimenti --- */
 .ty-hero {
   background: radial-gradient(ellipse at 50% 85%, #cc0000 0%, #7a0000 25%, #2d0000 55%, #000000 80%);
@@ -1127,6 +1204,28 @@ a:hover { color: #fff; }
       <p class="ty-hero-sub">Il nostro <em><strong>Deep Scan Aziendale AI</strong></em> ha elaborato i tuoi dati</p>
       <p class="ty-hero-meta">Analisi personalizzata per <span id="ty-name"></span> &middot; <span id="ty-date"></span></p>
 
+      <!-- Report numbers -->
+      <div class="ty-report">
+        <div class="ty-report-cards">
+          <div class="ty-rpt-card loss">
+            <p class="ty-rpt-label">La tua azienda sta perdendo ogni giorno:</p>
+            <p class="ty-rpt-number" id="ty-daily-loss-vis"></p>
+            <p class="ty-rpt-sub"><span id="ty-monthly-loss-vis"></span>/mese &middot; <span id="ty-annual-loss-vis"></span>/anno</p>
+          </div>
+          <div class="ty-rpt-card profit">
+            <p class="ty-rpt-label">Profitto potenziale gi&agrave; dal primo mese:</p>
+            <p class="ty-rpt-number" id="ty-first-profit-vis"></p>
+            <p class="ty-rpt-sub">+<span id="ty-profit-6m-vis"></span> in 6 mesi &middot; +<span id="ty-profit-annual-vis"></span>/anno</p>
+          </div>
+        </div>
+        <table class="ty-breakdown">
+          <tr><td>Dispersione operativa giornaliera</td><td id="ty-op-loss-vis"></td></tr>
+          <tr><td>Costo operativo mensile recuperabile</td><td id="ty-bundle-cost-vis"></td></tr>
+          <tr><td>Lead non lavorati (mensile)</td><td id="ty-lead-loss-vis"></td></tr>
+        </table>
+        <div class="ty-rpt-d6" id="ty-d6-note-vis">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
+      </div>
+
       <button class="cta-btn" onclick="downloadPDF()" style="margin:0 auto;display:flex;">
         Scarica ora il tuo report
       </button>
@@ -1607,6 +1706,20 @@ function submitQuiz() {
 
   document.getElementById('ty-bundle-name').textContent = 'ECOSISTEMA AI - ' + bundle;
   document.getElementById('ty-bundle-motivation').textContent = BUNDLE_MOTIVATIONS[bundle];
+
+  // Populate visible report cards
+  document.getElementById('ty-daily-loss-vis').textContent = formatEuro(totalDailyLoss) + '/giorno';
+  document.getElementById('ty-monthly-loss-vis').textContent = formatEuro(monthlyLoss);
+  document.getElementById('ty-annual-loss-vis').textContent = formatEuro(annualLoss);
+  document.getElementById('ty-first-profit-vis').textContent = '+' + formatEuro(firstMonthProfit);
+  document.getElementById('ty-profit-6m-vis').textContent = formatEuro(profit6Months);
+  document.getElementById('ty-profit-annual-vis').textContent = formatEuro(profitAnnual);
+  document.getElementById('ty-op-loss-vis').textContent = formatEuro(operationalDailyLoss) + '/giorno';
+  document.getElementById('ty-bundle-cost-vis').textContent = formatEuro(bundleCost) + '/mese';
+  document.getElementById('ty-lead-loss-vis').textContent = formatEuro(monthlyLeadLoss) + '/mese';
+  if (d6 === 'D') {
+    document.getElementById('ty-d6-note-vis').classList.add('visible');
+  }
 
   // CTA links now use showCalendar() directly via onclick
 
