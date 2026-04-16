@@ -1956,10 +1956,11 @@ function _pdfPage(extraStyle, inner) {
 }
 
 // Bundle word color (per template BLOCCO 3 art style).
+// Solid colors: html2canvas does NOT support -webkit-background-clip:text.
 var BUNDLE_WORD_COLOR = {
-  CONTROLLI: 'linear-gradient(180deg,#d82a35 0%,#6e0e14 100%)', // blood red on Domina art
-  SCALI: 'linear-gradient(180deg,#d9a74a 0%,#8a6418 100%)',     // gold on Scala art
-  MONETIZZI: 'linear-gradient(180deg,#6a5cff 0%,#2a1f88 100%)'  // purple on Monetizza art
+  CONTROLLI: '#c21d2a', // blood red on Domina art
+  SCALI: '#c08a2e',     // gold on Scala art
+  MONETIZZI: '#5a4ce0'  // purple on Monetizza art
 };
 
 function buildPdfHtml(data) {
@@ -2035,7 +2036,7 @@ function buildPdfHtml(data) {
     '<div style="position:absolute;left:60px;right:60px;top:50%;transform:translateY(-50%);z-index:1;">'
     +   '<p style="display:inline-block;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:999px;padding:10px 26px;font-family:Inter,sans-serif;font-size:18px;font-weight:400;color:#eee;margin:0 0 24px;">Ecco la <span style="color:#22c55e;font-weight:700;">soluzione</span> che fa al caso tuo:</p>'
     +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:30px;font-weight:500;color:#777;text-transform:uppercase;letter-spacing:6px;margin:0 0 6px;">ECOSISTEMA AI &mdash;</p>'
-    +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:'+wordSize+'px;font-weight:900;text-transform:uppercase;line-height:0.92;margin:0;letter-spacing:-4px;white-space:nowrap;background:'+wordGrad+';-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;">'+disp.label+'</p>'
+    +   '<p style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:'+wordSize+'px;font-weight:900;text-transform:uppercase;line-height:0.92;margin:0;letter-spacing:-4px;white-space:nowrap;color:'+wordGrad+';">'+disp.label+'</p>'
     + '</div>'
     + '<img src="'+robotSrc+'" crossorigin="anonymous" style="position:absolute;right:0;top:0;height:100%;width:auto;object-fit:cover;z-index:2;">';
 
