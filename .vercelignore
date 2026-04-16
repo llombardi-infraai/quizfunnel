@@ -1,4 +1,16 @@
-*
+*.html
 !index.html
-!assets/
-!assets/**
+*.md
+*.pdf
+*.png
+*.jpg
+*.jpeg
+Quiz GHL Screenshot/
+PDF Template/
+MOBILE_TEMPLATE_DEEP SCAN*/
+Deep Scan Aziendale AI*
+Ecco quanto stai perdendo*
+Infrastrutture AI*
+*.svg
+!assets/*.svg
+.DS_Store
