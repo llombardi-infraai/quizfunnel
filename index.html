@@ -617,144 +617,6 @@ a:hover { color: #fff; }
   margin: 0 auto;
 }
 
-/* === PDF — 9:16 story format (1080×1920 at scale 2) === */
-#pdf-wrapper {
-  position: fixed;
-  left: 0; top: 0;
-  z-index: -9999;
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-  height: 0;
-}
-#pdf-content {
-  width: 540px;
-  font-family: 'Be Vietnam Pro', sans-serif;
-  color: #FFFFFF;
-}
-.pdf-page {
-  width: 540px;
-  height: 960px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  background-color: #050000;
-}
-.pdf-bg-dark {
-  background: #050000 radial-gradient(ellipse at 50% 100%, #5c0000 0%, #250000 30%, #050000 65%);
-}
-/* — PAGE 1: Cover — */
-.pdf-page-cover {
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 40px;
-}
-.pdf-cover-logo { width: 70px; height: 70px; border-radius: 10px; margin-bottom: 40px; }
-.pdf-cover-title {
-  font-size: 60px; font-weight: 900; color: #fff;
-  text-transform: uppercase; line-height: 1.0; letter-spacing: 2px;
-}
-.pdf-cover-title .red { color: #e80000; }
-.pdf-cover-sub { font-size: 13px; font-weight: 300; color: #aaa; margin-top: 20px; }
-
-/* — PAGES 2 & 3: Loss / Profit — */
-.pdf-page-loss, .pdf-page-profit {
-  padding: 48px 28px 24px;
-  justify-content: center;
-  gap: 12px;
-}
-.pdf-hero-card {
-  border-radius: 20px;
-  padding: 24px 20px 28px;
-  text-align: center;
-}
-.pdf-hero-card.loss {
-  background: rgba(120, 0, 0, 0.6);
-  border: 1px solid rgba(200, 50, 50, 0.2);
-}
-.pdf-hero-card.profit { background: #0ea85a; }
-.pdf-hero-label {
-  font-size: 17px; font-weight: 400; color: #e0e0e0;
-  line-height: 1.35; margin-bottom: 10px;
-}
-.pdf-hero-label strong { font-weight: 700; color: #fff; }
-.pdf-hero-number { font-size: 42px; font-weight: 900; line-height: 1.1; }
-.pdf-hero-card.loss .pdf-hero-number { color: #ff7b7b; }
-.pdf-hero-card.profit .pdf-hero-number { color: #fff; }
-
-.pdf-metric-box {
-  background: #1c1c1c;
-  border-radius: 14px;
-  padding: 14px 20px 16px;
-  text-align: center;
-  border: 1px solid rgba(255,255,255,0.04);
-}
-.pdf-metric-label { font-size: 13px; font-weight: 500; color: #bbb; margin-bottom: 2px; }
-.pdf-metric-value { font-size: 30px; font-weight: 900; }
-.pdf-metric-box.red .pdf-metric-value { color: #ff7b7b; }
-.pdf-metric-box.green .pdf-metric-value { color: #22c55e; }
-
-.pdf-page-footer {
-  text-align: center; font-size: 16px; font-weight: 400; color: #bbb;
-  margin-top: auto; padding-bottom: 8px;
-}
-.pdf-page-footer strong { font-weight: 700; color: #fff; }
-
-/* — PAGE 4: Breakdown — */
-.pdf-page-breakdown {
-  padding: 80px 28px 60px;
-  justify-content: center;
-  gap: 24px;
-}
-.pdf-breakdown-bar {
-  background: #1c1c1c;
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 18px;
-  padding: 28px 24px 32px;
-  text-align: center;
-}
-.pdf-breakdown-label { font-size: 17px; font-weight: 600; color: #ddd; margin-bottom: 6px; }
-.pdf-breakdown-value { font-size: 42px; font-weight: 900; color: #ff7b7b; }
-.pdf-d6-note {
-  font-size: 12px; font-style: italic; color: #E8D9B0;
-  text-align: center; padding: 8px 12px;
-  background: rgba(232,217,176,0.06);
-  border-left: 3px solid #E8D9B0; border-radius: 4px;
-}
-
-/* — PAGE 5: Bundle — */
-.pdf-page-bundle {
-  background: #050000 radial-gradient(ellipse at 50% 100%, #5c0000 0%, #250000 30%, #050000 65%);
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 48px 32px;
-}
-.pdf-bundle-pill {
-  display: inline-block;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 999px;
-  padding: 10px 28px;
-  font-size: 15px; font-weight: 400; color: #eee;
-  margin-bottom: 28px;
-}
-.pdf-bundle-pill em { font-style: normal; color: #22c55e; font-weight: 700; }
-.pdf-bundle-prefix {
-  font-size: 20px; font-weight: 400; color: #555;
-  text-transform: uppercase; letter-spacing: 4px; margin-bottom: 0;
-}
-.pdf-bundle-name-big {
-  font-size: 74px; font-weight: 900; text-transform: uppercase;
-  color: #fff; line-height: 1.0; margin-bottom: 32px; letter-spacing: -1px;
-}
-.pdf-bundle-text {
-  font-size: 13px; font-weight: 300; color: #bbb;
-  line-height: 1.7; max-width: 420px; text-align: center;
-}
-
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   .quiz-container { padding: 32px 20px; }
@@ -1212,87 +1074,7 @@ a:hover { color: #fff; }
 
 </section>
 
-<!-- ==================== HIDDEN PDF CONTENT ==================== -->
-<div id="pdf-wrapper">
-<div id="pdf-content">
-
-  <!-- PAGE 1 — Cover -->
-  <div class="pdf-page pdf-bg-dark pdf-page-cover">
-    <img class="pdf-cover-logo" src="https://assets.cdn.filesafe.space/ATe6AwUmimxBVNqRQ113/media/6920f1775408c6ac15161f6f.svg" alt="Infrastrutture AI" crossorigin="anonymous">
-    <h1 class="pdf-cover-title">DEEP SCAN<br><span class="red">AZIENDALE AI</span></h1>
-    <p class="pdf-cover-sub">Analisi personalizzata per <span id="pdf-name"></span></p>
-    <p class="pdf-cover-sub"><span id="pdf-date"></span></p>
-  </div>
-
-  <!-- PAGE 2 — Loss numbers -->
-  <div class="pdf-page pdf-bg-dark pdf-page-loss">
-    <div class="pdf-hero-card loss">
-      <p class="pdf-hero-label">La tua <strong>azienda sta perdendo</strong><br>ogni giorno:</p>
-      <p class="pdf-hero-number" id="pdf-daily-loss"></p>
-    </div>
-    <div class="pdf-metric-box red">
-      <p class="pdf-metric-label">Perdita Giornaliera:</p>
-      <p class="pdf-metric-value" id="pdf-metric-daily"></p>
-    </div>
-    <div class="pdf-metric-box red">
-      <p class="pdf-metric-label">Perdita Mensile:</p>
-      <p class="pdf-metric-value" id="pdf-monthly-loss"></p>
-    </div>
-    <div class="pdf-metric-box red">
-      <p class="pdf-metric-label">Perdita Annuale:</p>
-      <p class="pdf-metric-value" id="pdf-annual-loss"></p>
-    </div>
-    <p class="pdf-page-footer"><strong>senza</strong> un ecosistema AI</p>
-  </div>
-
-  <!-- PAGE 3 — Profit numbers -->
-  <div class="pdf-page pdf-bg-dark pdf-page-profit">
-    <div class="pdf-hero-card profit">
-      <p class="pdf-hero-label"><strong>Profitto potenziale</strong><br>gi&agrave; dal primo mese:</p>
-      <p class="pdf-hero-number" id="pdf-first-profit"></p>
-    </div>
-    <div class="pdf-metric-box green">
-      <p class="pdf-metric-label">Profitto Primo Mese:</p>
-      <p class="pdf-metric-value" id="pdf-metric-profit1"></p>
-    </div>
-    <div class="pdf-metric-box green">
-      <p class="pdf-metric-label">Profitto in 6 Mesi:</p>
-      <p class="pdf-metric-value" id="pdf-profit-6m"></p>
-    </div>
-    <div class="pdf-metric-box green">
-      <p class="pdf-metric-label">Profitto Annuale:</p>
-      <p class="pdf-metric-value" id="pdf-profit-annual"></p>
-    </div>
-    <p class="pdf-page-footer">con il <strong>sistema giusto</strong> installato</p>
-  </div>
-
-  <!-- PAGE 4 — Breakdown -->
-  <div class="pdf-page pdf-bg-dark pdf-page-breakdown">
-    <div class="pdf-breakdown-bar">
-      <p class="pdf-breakdown-label">Dispersione Operativa Giornaliera:</p>
-      <p class="pdf-breakdown-value" id="pdf-op-loss"></p>
-    </div>
-    <div class="pdf-breakdown-bar">
-      <p class="pdf-breakdown-label">Costo Operativo Mensile Recuperabile:</p>
-      <p class="pdf-breakdown-value" id="pdf-bundle-cost"></p>
-    </div>
-    <div class="pdf-breakdown-bar">
-      <p class="pdf-breakdown-label">Lead Non Lavorati:</p>
-      <p class="pdf-breakdown-value" id="pdf-lead-loss"></p>
-    </div>
-    <div class="pdf-d6-note" id="pdf-d6-note" style="display:none;">Non tracciare i lead &egrave; gi&agrave; di per s&eacute; un segnale che stai perdendo pi&ugrave; di quanto pensi.</div>
-  </div>
-
-  <!-- PAGE 5 — Bundle -->
-  <div class="pdf-page pdf-page-bundle">
-    <p class="pdf-bundle-pill">Ecco la <em>soluzione</em> che fa al caso tuo:</p>
-    <p class="pdf-bundle-prefix">ECOSISTEMA AI &mdash;</p>
-    <h2 class="pdf-bundle-name-big" id="pdf-bundle-name"></h2>
-    <p class="pdf-bundle-text" id="pdf-bundle-motivation"></p>
-  </div>
-
-</div>
-</div>
+<!-- PDF is generated dynamically as HTML string — no hidden div needed -->
 
 <script>
 // === CONFIGURATION ===
@@ -1548,29 +1330,10 @@ function submitQuiz() {
 
   // CTA links now use showCalendar() directly via onclick
 
-  // === POPULATE PDF ===
-  document.getElementById('pdf-name').textContent = nome + ' ' + cognome;
-  document.getElementById('pdf-date').textContent = dateStr;
-  // Page 2 — hero cards
-  document.getElementById('pdf-daily-loss').textContent = formatEuro(totalDailyLoss) + '/giorno';
-  document.getElementById('pdf-first-profit').textContent = '+' + formatEuro(firstMonthProfit);
-  // Page 2 — metrics grid
-  document.getElementById('pdf-metric-daily').textContent = formatEuro(totalDailyLoss) + '/giorno';
-  document.getElementById('pdf-metric-profit1').textContent = formatEuro(firstMonthProfit) + '/mese';
-  document.getElementById('pdf-monthly-loss').textContent = formatEuro(monthlyLoss) + '/mese';
-  document.getElementById('pdf-profit-6m').textContent = formatEuro(profit6Months);
-  document.getElementById('pdf-annual-loss').textContent = formatEuro(annualLoss) + '/anno';
-  document.getElementById('pdf-profit-annual').textContent = formatEuro(profitAnnual) + '/anno';
-  // Page 3 — breakdown bars
-  document.getElementById('pdf-op-loss').textContent = formatEuro(operationalDailyLoss) + '/giorno';
-  document.getElementById('pdf-bundle-cost').textContent = formatEuro(bundleCost) + '/mese';
-  document.getElementById('pdf-lead-loss').textContent = formatEuro(monthlyLeadLoss) + '/mese';
-  if (d6 === 'D') {
-    document.getElementById('pdf-d6-note').style.display = 'block';
-  }
-  // Page 4 — bundle (just the name, not the prefix)
-  document.getElementById('pdf-bundle-name').textContent = bundle.toUpperCase();
-  document.getElementById('pdf-bundle-motivation').textContent = BUNDLE_MOTIVATIONS[bundle];
+  // === STORE DATA FOR PDF ===
+  window._quizD6 = d6;
+  window._quizBundleName = bundle.toUpperCase();
+  window._quizBundleMotivation = BUNDLE_MOTIVATIONS[bundle];
 
   // === SHOW TY, HIDE QUIZ ===
   document.getElementById('quiz-section').style.display = 'none';
@@ -1614,36 +1377,107 @@ function submitQuiz() {
 }
 
 // === PDF GENERATION ===
+function buildPdfHtml(data) {
+  var W = 540, H = 960;
+  var bg = 'background:#080000;background-image:radial-gradient(ellipse at 50% 100%,#5c0000 0%,#250000 30%,#080000 65%);';
+  var page = 'width:'+W+'px;height:'+H+'px;display:flex;flex-direction:column;overflow:hidden;font-family:Be Vietnam Pro,sans-serif;color:#fff;';
+  var card = 'border-radius:20px;padding:24px 20px 28px;text-align:center;';
+  var metricBox = 'background:#1c1c1c;border-radius:14px;padding:14px 20px 16px;text-align:center;border:1px solid rgba(255,255,255,0.04);';
+  var barStyle = 'background:#1c1c1c;border:1px solid rgba(255,255,255,0.04);border-radius:18px;padding:28px 24px 32px;text-align:center;';
+  var labelS = 'font-size:13px;font-weight:500;color:#bbb;margin:0 0 2px;';
+  var valRed = 'font-size:30px;font-weight:900;color:#ff7b7b;margin:0;';
+  var valGreen = 'font-size:30px;font-weight:900;color:#22c55e;margin:0;';
+  var bigBarVal = 'font-size:42px;font-weight:900;color:#ff7b7b;margin:0;';
+  var barLabel = 'font-size:17px;font-weight:600;color:#ddd;margin:0 0 6px;';
+  var footer = 'text-align:center;font-size:16px;font-weight:400;color:#bbb;margin-top:auto;padding-bottom:8px;';
+
+  // PAGE 1 — Cover
+  var p1 = '<div style="'+page+bg+'align-items:center;justify-content:center;text-align:center;padding:40px;">'
+    + '<p style="font-size:60px;font-weight:900;color:#fff;text-transform:uppercase;line-height:1.0;letter-spacing:2px;margin:0;">DEEP SCAN<br><span style="color:#e80000;">AZIENDALE AI</span></p>'
+    + '<p style="font-size:13px;font-weight:300;color:#aaa;margin-top:24px;">Analisi personalizzata per '+data.nome+' '+data.cognome+'</p>'
+    + '<p style="font-size:13px;font-weight:300;color:#aaa;margin-top:4px;">'+data.date+'</p>'
+    + '</div>';
+
+  // PAGE 2 — Loss
+  var p2 = '<div style="'+page+bg+'padding:48px 28px 24px;justify-content:center;gap:12px;">'
+    + '<div style="'+card+'background:rgba(120,0,0,0.6);border:1px solid rgba(200,50,50,0.2);">'
+    +   '<p style="font-size:17px;font-weight:400;color:#e0e0e0;line-height:1.35;margin:0 0 10px;">La tua <strong style="font-weight:700;color:#fff;">azienda sta perdendo</strong><br>ogni giorno:</p>'
+    +   '<p style="font-size:42px;font-weight:900;color:#ff7b7b;line-height:1.1;margin:0;">'+data.dailyLoss+'</p>'
+    + '</div>'
+    + '<div style="'+metricBox+'"><p style="'+labelS+'">Perdita Giornaliera:</p><p style="'+valRed+'">'+data.dailyLoss+'</p></div>'
+    + '<div style="'+metricBox+'"><p style="'+labelS+'">Perdita Mensile:</p><p style="'+valRed+'">'+data.monthlyLoss+'</p></div>'
+    + '<div style="'+metricBox+'"><p style="'+labelS+'">Perdita Annuale:</p><p style="'+valRed+'">'+data.annualLoss+'</p></div>'
+    + '<p style="'+footer+'"><strong style="font-weight:700;color:#fff;">senza</strong> un ecosistema AI</p>'
+    + '</div>';
+
+  // PAGE 3 — Profit
+  var p3 = '<div style="'+page+bg+'padding:48px 28px 24px;justify-content:center;gap:12px;">'
+    + '<div style="'+card+'background:#0ea85a;">'
+    +   '<p style="font-size:17px;font-weight:400;color:#e0e0e0;line-height:1.35;margin:0 0 10px;"><strong style="font-weight:700;color:#fff;">Profitto potenziale</strong><br>gi\u00E0 dal primo mese:</p>'
+    +   '<p style="font-size:42px;font-weight:900;color:#fff;line-height:1.1;margin:0;">'+data.firstProfit+'</p>'
+    + '</div>'
+    + '<div style="'+metricBox+'"><p style="'+labelS+'">Profitto Primo Mese:</p><p style="'+valGreen+'">'+data.profitMonth+'</p></div>'
+    + '<div style="'+metricBox+'"><p style="'+labelS+'">Profitto in 6 Mesi:</p><p style="'+valGreen+'">'+data.profit6m+'</p></div>'
+    + '<div style="'+metricBox+'"><p style="'+labelS+'">Profitto Annuale:</p><p style="'+valGreen+'">'+data.profitAnnual+'</p></div>'
+    + '<p style="'+footer+'">con il <strong style="font-weight:700;color:#fff;">sistema giusto</strong> installato</p>'
+    + '</div>';
+
+  // PAGE 4 — Breakdown
+  var d6Note = data.d6 === 'D' ? '<p style="font-size:12px;font-style:italic;color:#E8D9B0;text-align:center;padding:8px 12px;background:rgba(232,217,176,0.06);border-left:3px solid #E8D9B0;border-radius:4px;margin:0;">Non tracciare i lead \u00E8 gi\u00E0 di per s\u00E9 un segnale che stai perdendo pi\u00F9 di quanto pensi.</p>' : '';
+  var p4 = '<div style="'+page+bg+'padding:80px 28px 60px;justify-content:center;gap:24px;">'
+    + '<div style="'+barStyle+'"><p style="'+barLabel+'">Dispersione Operativa Giornaliera:</p><p style="'+bigBarVal+'">'+data.opLoss+'</p></div>'
+    + '<div style="'+barStyle+'"><p style="'+barLabel+'">Costo Operativo Mensile Recuperabile:</p><p style="'+bigBarVal+'">'+data.bundleCost+'</p></div>'
+    + '<div style="'+barStyle+'"><p style="'+barLabel+'">Lead Non Lavorati:</p><p style="'+bigBarVal+'">'+data.leadLoss+'</p></div>'
+    + d6Note
+    + '</div>';
+
+  // PAGE 5 — Bundle
+  var p5 = '<div style="'+page+bg+'align-items:center;justify-content:center;text-align:center;padding:48px 32px;">'
+    + '<p style="display:inline-block;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:999px;padding:10px 28px;font-size:15px;font-weight:400;color:#eee;margin-bottom:28px;">Ecco la <span style="color:#22c55e;font-weight:700;">soluzione</span> che fa al caso tuo:</p>'
+    + '<p style="font-size:20px;font-weight:400;color:#555;text-transform:uppercase;letter-spacing:4px;margin:0;">ECOSISTEMA AI \u2014</p>'
+    + '<p style="font-size:74px;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.0;margin:0 0 32px;letter-spacing:-1px;">'+data.bundleName+'</p>'
+    + '<p style="font-size:13px;font-weight:300;color:#bbb;line-height:1.7;max-width:420px;text-align:center;margin:0;">'+data.bundleMotivation+'</p>'
+    + '</div>';
+
+  return '<div style="width:'+W+'px;font-family:Be Vietnam Pro,sans-serif;">' + p1 + p2 + p3 + p4 + p5 + '</div>';
+}
+
 function downloadPDF() {
   var nome = document.getElementById('field-nome').value.trim();
   var cognome = document.getElementById('field-cognome').value.trim();
-  var wrapper = document.getElementById('pdf-wrapper');
-  var element = document.getElementById('pdf-content');
-
-  // Make wrapper visible for capture
-  wrapper.style.height = 'auto';
-  wrapper.style.opacity = '1';
-  wrapper.style.zIndex = '-1';
 
   // Show the calendar
   showCalendar();
 
-  // Wait for repaint then generate
-  requestAnimationFrame(function() {
-    setTimeout(function() {
-      html2pdf().set({
-        margin: 0,
-        filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
-        image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050000', windowWidth: 540 },
-        jsPDF: { unit: 'mm', format: [142.88, 254], orientation: 'portrait' }
-      }).from(element).save().then(function() {
-        wrapper.style.height = '0';
-        wrapper.style.opacity = '0';
-        wrapper.style.zIndex = '-9999';
-      });
-    }, 300);
-  });
+  // Collect stored data from the TY page
+  var data = {
+    nome: nome,
+    cognome: cognome,
+    date: document.getElementById('ty-date').textContent,
+    dailyLoss: document.getElementById('ty-daily-loss').textContent,
+    monthlyLoss: document.getElementById('ty-monthly-loss').textContent + '/mese',
+    annualLoss: document.getElementById('ty-annual-loss').textContent + '/anno',
+    firstProfit: document.getElementById('ty-first-profit').textContent,
+    profitMonth: document.getElementById('ty-first-profit').textContent.replace('+',''),
+    profit6m: document.getElementById('ty-profit-6m').textContent,
+    profitAnnual: document.getElementById('ty-profit-annual').textContent + '/anno',
+    opLoss: document.getElementById('ty-op-loss').textContent,
+    bundleCost: document.getElementById('ty-bundle-cost').textContent,
+    leadLoss: document.getElementById('ty-lead-loss').textContent,
+    d6: window._quizD6 || '',
+    bundleName: window._quizBundleName || '',
+    bundleMotivation: window._quizBundleMotivation || ''
+  };
+
+  var htmlStr = buildPdfHtml(data);
+
+  html2pdf().set({
+    margin: 0,
+    filename: 'Deep_Scan_' + nome + '_' + cognome + '.pdf',
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: '#080000' },
+    jsPDF: { unit: 'mm', format: [142.88, 254], orientation: 'portrait' }
+  }).from(htmlStr, 'string').save();
 }
 
 function showCalendar() {
